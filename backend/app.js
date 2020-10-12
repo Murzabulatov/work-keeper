@@ -7,8 +7,8 @@ const cors = require('cors');
 const fs = require('fs');
 
 const options = {
-  cert: fs.readFileSync('../../../certs/workkeeper/fullchain.pem'),
-  key: fs.readFileSync('../../../certs/workkeeper/privkey.pem')
+  cert: fs.readFileSync('../../certs/workkeeper/fullchain.pem'),
+  key: fs.readFileSync('../../certs/workkeeper/privkey.pem')
 };
 
 const server = https.createServer(options, app);
