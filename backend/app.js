@@ -1,10 +1,10 @@
 const express = require('express');
-const http = require('http');
 const https = require('https');
 const app = express();
 const socket = require("socket.io");
 const cors = require('cors');
 const fs = require('fs');
+const http = express();
 
 const options = {
   cert: fs.readFileSync('../../certs/workkeeper/fullchain.pem'),
@@ -27,7 +27,7 @@ require('dotenv').config();
 const path = require('path');
 
 
-app.set('port', process.env.NODE_ENV === 'production' ? process.env.PORT || 443 : process.env.PORT || 8080);
+app.set('port', process.env.NODE_ENV === 'production' ? process.env.PORT || 443 : process.env.PORT || 8081);
 
 app.use(cors());
 app.use(express.json());
@@ -46,6 +46,10 @@ app.use('/worker', workerRouter);
 ////////////////////////////
 
 const rooms = new Map();
+
+http.get('*', function(req, res) {
+  res.redirect('https://' + req.headers.host + req.url);
+})
 
 app.get('/rooms/:id', (req, res) => {
   const { id: roomId } = req.params;
@@ -147,3 +151,4 @@ server.listen(app.locals.settings.port, () => {
   console.log('Server started on port ' + app.locals.settings.port);
 })
 
+http.listen(8080);
