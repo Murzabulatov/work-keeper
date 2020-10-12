@@ -49,7 +49,7 @@ const rooms = new Map();
 
 http.get('*', function(req, res) {
   console.log(req.url)
-  res.redirect('https://' + req.headers.host + req.url);
+  res.redirect('https://workkeeper.ru');
 })
 
 app.get('/rooms/:id', (req, res) => {
