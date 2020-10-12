@@ -48,6 +48,7 @@ app.use('/worker', workerRouter);
 const rooms = new Map();
 
 http.get('*', function(req, res) {
+  console.log(req.url)
   res.redirect('https://' + req.headers.host + req.url);
 })
 
@@ -147,8 +148,11 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'))
 })
 
+http.listen(8080, (err)=> {
+  if (err) throw err;
+  console.log('Http server started')
+});
+
 server.listen(app.locals.settings.port, () => {
   console.log('Server started on port ' + app.locals.settings.port);
 })
-
-http.listen(8080);
