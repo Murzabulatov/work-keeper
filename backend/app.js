@@ -148,7 +148,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'))
 })
 
-http.listen(8080, (err)=> {
+http.listen(process.env.HTTP_PORT|| 8080, (err)=> {
   if (err) throw err;
   console.log('Http server started')
 });
