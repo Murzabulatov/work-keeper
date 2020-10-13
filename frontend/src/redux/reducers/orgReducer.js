@@ -21,12 +21,16 @@ const orgReducer = (state = [], action) => {
         return el;
       })
 
-    // organization - ЭТО МАССИВ ОБЪЕКТОВ
     case ACTION_TYPES.MAIN_ORGANIZATIONS:
+      return [
+        action.payload,
+      ]
+
+    // organization - ЭТО МАССИВ ОБЪЕКТОВ
+    case ACTION_TYPES.MAIN_CREATOR_ORGANIZATIONS:
       return [
         ...action.payload.organization,
       ]
-
 
     default:
       return state

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import * as ACTION_MAIN_PAGE from "../../redux/actions/mainPageActions";
 import CreatorContext from '../contexts/creatorContext';
 import OrganizationCard from '../OrganizationCard';
+import DepartmentCard from '../DepartmentCard';
 
 
 const MainPage = () => {
@@ -31,24 +32,32 @@ const MainPage = () => {
         if (response.ok) {
 
           const { departments, organization, ...userInfo } = result;
-          console.log(userInfo);
+          console.log(departments[0], '*********ORGAN');
+          setUserInfo(userInfo)
 
 
-          if (departments.length) {
-            const { orgID, name: orgName } = departments[0].organization
+          if (!organization.length) {
+            const orgObj = departments[0].organization
+            const { _id: orgID, name: orgName } = orgObj
 
+            console.log(orgID, '<<<<<<<<<ORGID');
+            console.log(orgObj, '<<<<<<<<<ORGOBJ');
+            console.log(orgName, '<<<<<<<<<ORGNAME');
             setCreator(false)
+
+            dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
             dispatch(ACTION_MAIN_PAGE.MAIN_DEPARTMENTS(orgID, departments))
+            dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(orgObj))
+
 
             setDep(departments);
-            setOrgName(orgName)
+            return setOrgName(orgName)
           }
 
           setOrgArray(organization)
-          setUserInfo(userInfo)
           dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
           dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
-          dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(organization))
+          dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_ORGANIZATIONS(organization))
         }
 
 
@@ -70,9 +79,6 @@ const MainPage = () => {
           <p>Для добавления организаций перейдите в личный кабинет </p>
           <hr />
           <p>Ваши организации:</p>
-          {/* ОТОБРАЖЕНИЕ ОРГАНИЗАЦИЙ/ДЕПАРТАМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
-                >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                */}
 
           <div className="profile__page">
             {orgArray.length
@@ -100,10 +106,21 @@ const MainPage = () => {
             dep.length
               ?
               <>
-                <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации: {orgName}</p>
+                <p> {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации "{orgName}"</p>
                 {/* ОТОБРАЖЕНИЕ ДЕПАРТМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 */}
+                <ul className="org-list ">
+                  {dep.map((dep) => {
+                    return (
+                      <Link to={`/department/${dep._id}`} key={dep._id}>
+                        <li className="dep-list-task">
+                          <DepartmentCard {...dep} />
+                        </li>
+                      </Link>
+                    )
+                  })}
+                </ul>
               </>
               : <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, подождите, пока Вас добавят в список сотрудников на сайте </p>
           }

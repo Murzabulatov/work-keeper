@@ -29,12 +29,19 @@ const MAIN_CREATOR_DEPARTMENTS = (organization) => {
 
 
 // organization - ЭТО МАССИВ ОБЪЕКТОВ
-const MAIN_ORGANIZATIONS = (organization) => {
+const MAIN_CREATOR_ORGANIZATIONS = (organization) => {
   return {
-    type: ACTIONS_TYPES.MAIN_ORGANIZATIONS,
+    type: ACTIONS_TYPES.MAIN_CREATOR_ORGANIZATIONS,
     payload: {
       organization
     }
+  }
+};
+
+const MAIN_ORGANIZATIONS = (orgObj) => {
+  return {
+    type: ACTIONS_TYPES.MAIN_ORGANIZATIONS,
+    payload: orgObj
   }
 };
 
@@ -45,5 +52,6 @@ export {
   MAIN_USER,
   MAIN_DEPARTMENTS,
   MAIN_ORGANIZATIONS,
+  MAIN_CREATOR_ORGANIZATIONS,
   MAIN_CREATOR_DEPARTMENTS
 } 
