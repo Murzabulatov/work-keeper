@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as ACTION_MAIN_PAGE from "../../redux/actions/mainPageActions";
-import isCreatorContext from '../contexts/isCreatorContext';
+import CreatorContext from '../contexts/creatorContext';
 
 
 const MainPage = () => {
 
+  const { creator, setCreator } = useContext(CreatorContext);
+
+  //console.log(setCreator(false), '<<<<<<<<<CONTEXT');
+  //console.log(setCreator(), '<<<<<<<<<st');
   const dispatch = useDispatch()
   const { userID } = useSelector(state => state.user)
-  const { isCreator } = useContext(isCreatorContext)
 
   const [dep, setDep] = useState([])
   const [orgName, setOrgName] = useState('')
@@ -20,26 +23,26 @@ const MainPage = () => {
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${userID}`)
         const result = await response.json()
         console.log('INFO_FOR_MAIN_PAGE', result);
-        //dispatch(FROM_BACKEND(result))
-
 
         if (response.ok) {
-          // НУЖНА ЛОГИКА 
 
-          const { departments, organization, isCreator, ...userInfo } = result;
+          const { departments, organization, ...userInfo } = result;
           console.log(userInfo);
 
 
           if (departments.length) {
             const { orgID, name: orgName } = departments[0].organization
+
+            setCreator(false)
             dispatch(ACTION_MAIN_PAGE.MAIN_DEPARTMENTS(orgID, departments))
 
             setDep(departments);
             setOrgName(orgName)
           }
+
           setUserInfo(userInfo)
-          dispatch(ACTION_MAIN_PAGE.MAIN_IS_CREATOR(isCreator))
           dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
+          dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
           dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(organization))
         }
 
@@ -56,26 +59,33 @@ const MainPage = () => {
     <>
       <h1>Главная страница</h1>
 
-      {isCreator
+      {creator
         ?
         <>
+          <p>Для добавления организаций/отделов и их сотрудников, перейдите в личный кабинет </p>
+          <hr />
           <p>Ваши организации:</p>
-          <div>
-            {/* ОТОБРАЖЕНИЕ ОРГАНИЗАЦИЙ/ДЕПАРТАМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
+          {/* ОТОБРАЖЕНИЕ ОРГАНИЗАЦИЙ/ДЕПАРТАМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 */}
-            {/* {arrTask.length ? <ul className="todo-list list-group">
-          {arrTask.map((task) => {
-            return (
-              <li key={task.id} className="todo-list-task list-group-item">
-                <Organization {...task} />
-              </li>
 
-            )
-          })}
-        </ul> : <p>Нет добавленных организаций</p>
-        } */}
-          </div>
+          {/* <div className="profile__page">
+            {orgArray.length
+              ? <ul className="org-list ">
+                {orgArray.map((org) => {
+                  return (
+                    <Link to={`/organization/${org._id}`} key={org._id}>
+                      <li className="org-list-task">
+                        <OrganizationCard {...org} />
+                      </li>
+                    </Link>
+                  )
+                })}
+              </ul>
+              : <p>Нет добавленных организаций</p>
+            }
+          </div> */}
+
         </>
 
         :

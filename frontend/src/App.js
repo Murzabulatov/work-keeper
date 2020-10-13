@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -16,22 +16,23 @@ import MainPage from './components/MainPage'
 import OrganizationInfo from './components/OrganizationInfo';
 import DepartmentInfo from "./components/DepartmentInfo";
 import WorkerInfo from './components/WorkerInfo'
-import IsCreatorContext from './components/contexts/isCreatorContext'
+import CreatorContext from './components/contexts/creatorContext'
 
 function App() {
 
+  const [creator, setCreator] = useState(true)
   const aboutMe = useSelector(state => state.aboutMe);
   const user = useSelector(state => state.user)
   const organizations = useSelector(state => state.organizations)
 
 
 
-  console.log(aboutMe.isCreator, 'ISCREATOR');
+  console.log(creator, 'CREATOR');
 
   return (
     <div className="App">
 
-      <IsCreatorContext.Provider value={aboutMe.isCreator}>
+      <CreatorContext.Provider value={{ creator, setCreator }}>
 
         <LeftMenu >
 
@@ -79,7 +80,7 @@ function App() {
         </LeftMenu>
 
 
-      </IsCreatorContext.Provider>
+      </CreatorContext.Provider>
     </div>
   );
 }

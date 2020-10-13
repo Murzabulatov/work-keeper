@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import OrganizationCard from '../OrganizationCard';
-import isCreatorContext from '../contexts/isCreatorContext';
+import CreatorContext from '../contexts/creatorContext';
 
 const Profile = () => {
 
@@ -13,7 +13,9 @@ const Profile = () => {
 
   const orgArray = useSelector(state => state.organizations)
   const [open, setOpen] = React.useState(false);
-  const { isCreator } = useContext(isCreatorContext)
+  const { creator, setCreator } = useContext(CreatorContext); // CONTEXT
+
+  console.log(creator, '<<<<<CREATOR');
 
   const depsObj = useSelector(state => state.departments)
   const userInfo = useSelector(state => state.user)
@@ -28,7 +30,7 @@ const Profile = () => {
 
   return (
     <>
-      {isCreator
+      {creator
         ?
         <>
           <div className="profile__page">

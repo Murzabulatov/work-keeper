@@ -77,11 +77,20 @@ module.exports.update = async function (req, res) {
 
   try {
 
-    const updateUser = await User.findOne({ email: workerEmail }, 'departments')
-    const isPresent = updateUser.departments.find(dep => dep === depID)    // const updateUser = await User.findOneAndUpdate(
-    console.log(isPresent);
+    const updateUser = await User.findOne({ email: workerEmail })
+    console.log(updateUser, '<<<<<<<<<UPDATE USER');
+    //если не найден
+    if (!updateUser) {
+      return res.status(500).json({ message: 'Данного работника нет в базе системы. Попросите его зарегистрироваться.' })
 
-    if (isPresent !== undefined) {
+    }
+
+    // КАК переводить из мангусовского объекта в обычный?
+    const isPresent = updateUser.departments.find(dep => dep == depID)  // dep - это ID  // const updateUser = await User.findOneAndUpdate(
+    console.log(isPresent, '<<<<<<IS PRESENT');
+    console.log(typeof depID, '<<<<<<DEPID');
+
+    if (isPresent == undefined) {
       updateUser.departments.push(depID);
       await updateUser.save();
 
