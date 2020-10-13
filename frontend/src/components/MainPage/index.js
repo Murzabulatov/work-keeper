@@ -1,21 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as ACTION_MAIN_PAGE from "../../redux/actions/mainPageActions";
 import CreatorContext from '../contexts/creatorContext';
+import OrganizationCard from '../OrganizationCard';
 
 
 const MainPage = () => {
 
+
+
+  console.log('>>>>>>>>>>>>>>>>>>>>>MAINPAGE************');
   const { creator, setCreator } = useContext(CreatorContext);
 
-  //console.log(setCreator(false), '<<<<<<<<<CONTEXT');
-  //console.log(setCreator(), '<<<<<<<<<st');
+  const depsObj = useSelector(state => state.departments)
+  const userInfo = useSelector(state => state.user)
+  const orgArray = useSelector(state => state.organizations)
+
+
+
   const dispatch = useDispatch()
   const { userID } = useSelector(state => state.user)
 
-  const [dep, setDep] = useState([])
+  // FOR_ANOTHER_LOGIC: const [dep, setDep] = useState([])
   const [orgName, setOrgName] = useState('')
-  const [userInfo, setUserInfo] = useState({})
+  // FOR_ANOTHER_LOGIC const [userInfo, setUserInfo] = useState({})
+  // FOR_ANOTHER_LOGIC const [orgArray, setOrgArray] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -36,11 +46,12 @@ const MainPage = () => {
             setCreator(false)
             dispatch(ACTION_MAIN_PAGE.MAIN_DEPARTMENTS(orgID, departments))
 
-            setDep(departments);
+            // FOR_ANOTHER_LOGIC setDep(departments);
             setOrgName(orgName)
           }
 
-          setUserInfo(userInfo)
+          // FOR_ANOTHER_LOGIC setOrgArray(organization)
+          // FOR_ANOTHER_LOGIC setUserInfo(userInfo)
           dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
           dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
           dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(organization))
@@ -69,7 +80,7 @@ const MainPage = () => {
                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 */}
 
-          {/* <div className="profile__page">
+          <div className="profile__page">
             {orgArray.length
               ? <ul className="org-list ">
                 {orgArray.map((org) => {
@@ -84,7 +95,7 @@ const MainPage = () => {
               </ul>
               : <p>Нет добавленных организаций</p>
             }
-          </div> */}
+          </div>
 
         </>
 
@@ -92,7 +103,7 @@ const MainPage = () => {
 
         <>
           {
-            dep.length
+            Object.keys(depsObj)
               ?
               <>
                 <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации: {orgName}</p>
