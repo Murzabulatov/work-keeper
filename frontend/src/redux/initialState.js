@@ -2,7 +2,6 @@ const initialState = () => {
   const initialValue = {
     aboutMe: {
       isMe: false,
-      isCreator: false
     },
 
     user: {},

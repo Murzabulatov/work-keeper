@@ -32,8 +32,10 @@ const DepartmentInfo = ({ organizations }) => {
 
 
   useEffect(() => {
+    console.log(organizations, '<<<<<<<<<<<organizations');
+    console.log(id, '<<<<<<<<<<<ID');
 
-    const { _id: orgID } = organizations.find(el => el.departments.find(element => element === id));
+    const { _id: orgID } = organizations.find(el => el.departments.find(element => element._id === id));
     if (orgID) {
       const foundDep = departments[orgID].find(el => el._id = id)
       setDep(foundDep);
@@ -67,7 +69,7 @@ const DepartmentInfo = ({ organizations }) => {
             + Добавить сотрудника
           </Button>
           {mesFromBack &&
-            <span style={{ color: "red", fontSize: "small" }}>{' ' + mesFromBack}</span>}
+            <span style={{ color: "red !important", fontSize: "small" }}>{' ' + mesFromBack}</span>}
 
           {open && <ModalWorker open={open} handleClose={handleClose} {...dep} orgID={orgID} setAddWorker={setAddWorker} setMesFromBack={setMesFromBack} />}
 

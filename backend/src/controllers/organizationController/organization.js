@@ -4,7 +4,7 @@ const User = require('../../models/HASAN.user.model')
 const errorHandler = require('../../helpers/errorHandler')
 
 
-const serializeUser = (user, isCreator) => ({
+const serializeUser = (user) => ({
   organization: user.organization,
   departments: user.departments,
   _id: user._id,
@@ -14,7 +14,6 @@ const serializeUser = (user, isCreator) => ({
   accessToken: user.accessToken,
   refreshToken: user.refreshToken,
   __v: user.__v,
-  isCreator: isCreator
 
 })
 
@@ -25,37 +24,17 @@ module.exports.getAllInfo = async function (req, res) {
   try {
 
     const thisUser = await User.findOne({ _id: userID })
-
-    console.log(thisUser.organization == true, 'CHECK');
-    let isCreator;
-
-    // ЕСЛИ СОЗДАТЕЛЬ компании
-    if (thisUser.organization.length) {
-      isCreator = true;
-
-      thisUser
-        .populate({
-          path: 'organization',
-          populate: { path: 'departments' }
-        })
-        .execPopulate();
-
-      const userToSand = serializeUser(thisUser, isCreator)
-      console.log(userToSand, '<<<<<<<CREATORUser');
-
-      return res.status(200).json(userToSand) // объект плюс isCreator: true/false
-    }
-
-    // если НЕ СОЗДАТЕЛЬ компании
-    isCreator = false;
-    thisUser
+      .populate('organization')
       .populate('departments')
-      .execPopulate();
+      .populate({
+        path: 'organization',
+        populate: { path: 'departments' }
+      })
 
-    const userToSand = serializeUser(thisUser, isCreator)
-    console.log(userToSand, '<<<<<<<WORKERUser');
+    const userToSand = serializeUser(thisUser)
+    console.log(userToSand, '<<<<<<<CREATORUser');
 
-    return res.status(200).json(userToSand) // объект плюс isCreator: true/false
+    return res.status(200).json(userToSand)
 
   } catch (e) {
     errorHandler(res, e)

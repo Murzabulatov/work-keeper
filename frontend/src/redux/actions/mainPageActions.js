@@ -1,13 +1,5 @@
 import * as ACTIONS_TYPES from './actionTypes'
 
-const MAIN_IS_CREATOR = (isCreator) => {
-  return {
-    type: ACTIONS_TYPES.MAIN_IS_CREATOR,
-    payload: {
-      isCreator
-    }
-  }
-};
 
 const MAIN_USER = (userInfo) => {
   return {
@@ -25,7 +17,18 @@ const MAIN_DEPARTMENTS = (orgID, departments) => {
   }
 };
 
-// organization - ЭТО МАССИВ
+// organization - ЭТО МАССИВ ОБЪЕКТОВ
+const MAIN_CREATOR_DEPARTMENTS = (organization) => {
+  return {
+    type: ACTIONS_TYPES.MAIN_CREATOR_DEPARTMENTS,
+    payload: {
+      organization
+    }
+  }
+};
+
+
+// organization - ЭТО МАССИВ ОБЪЕКТОВ
 const MAIN_ORGANIZATIONS = (organization) => {
   return {
     type: ACTIONS_TYPES.MAIN_ORGANIZATIONS,
@@ -39,8 +42,8 @@ const MAIN_ORGANIZATIONS = (organization) => {
 
 
 export {
-  MAIN_IS_CREATOR,
   MAIN_USER,
   MAIN_DEPARTMENTS,
   MAIN_ORGANIZATIONS,
+  MAIN_CREATOR_DEPARTMENTS
 } 

@@ -37,11 +37,33 @@ const depReducer = (state = {}, action) => {
     case ACTION_TYPES.MAIN_DEPARTMENTS:
 
       return {
-        ...state,
         [action.payload.orgID]: [
           ...action.payload.departments
         ]
       }
+
+    // organization - ЭТО МАССИВ ОБЪЕКТОВ
+    /* [
+      {ORG: id and departments:},
+      {},
+      {}
+      ]  
+  ------- 
+  {orgID: departments }
+  */
+    case ACTION_TYPES.MAIN_CREATOR_DEPARTMENTS:
+
+      //const orgIDarr = action.payload.organization.map(org => org._id);
+
+      const orgArr = action.payload.organization
+      console.log(orgArr, '<<<<<<MAssiv ');
+
+      const newObj = {}
+      for (let i = 0; i < orgArr.length; i++) {
+        newObj[orgArr[i]._id] = orgArr[i].departments
+      }
+
+      return newObj
 
 
     default:
