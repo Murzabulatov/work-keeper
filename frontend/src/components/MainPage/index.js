@@ -8,24 +8,18 @@ import OrganizationCard from '../OrganizationCard';
 
 const MainPage = () => {
 
-
-
   console.log('>>>>>>>>>>>>>>>>>>>>>MAINPAGE************');
   const { creator, setCreator } = useContext(CreatorContext);
 
-  const depsObj = useSelector(state => state.departments)
-  const userInfo = useSelector(state => state.user)
-  const orgArray = useSelector(state => state.organizations)
-
-
-
+  //console.log(setCreator(false), '<<<<<<<<<CONTEXT');
+  //console.log(setCreator(), '<<<<<<<<<st');
   const dispatch = useDispatch()
   const { userID } = useSelector(state => state.user)
 
-  // FOR_ANOTHER_LOGIC: const [dep, setDep] = useState([])
+  const [dep, setDep] = useState([])
   const [orgName, setOrgName] = useState('')
-  // FOR_ANOTHER_LOGIC const [userInfo, setUserInfo] = useState({})
-  // FOR_ANOTHER_LOGIC const [orgArray, setOrgArray] = useState([])
+  const [userInfo, setUserInfo] = useState({})
+  const [orgArray, setOrgArray] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -46,12 +40,12 @@ const MainPage = () => {
             setCreator(false)
             dispatch(ACTION_MAIN_PAGE.MAIN_DEPARTMENTS(orgID, departments))
 
-            // FOR_ANOTHER_LOGIC setDep(departments);
+            setDep(departments);
             setOrgName(orgName)
           }
 
-          // FOR_ANOTHER_LOGIC setOrgArray(organization)
-          // FOR_ANOTHER_LOGIC setUserInfo(userInfo)
+          setOrgArray(organization)
+          setUserInfo(userInfo)
           dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
           dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
           dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(organization))
@@ -73,7 +67,7 @@ const MainPage = () => {
       {creator
         ?
         <>
-          <p>Для добавления организаций/отделов и их сотрудников, перейдите в личный кабинет </p>
+          <p>Для добавления организаций перейдите в личный кабинет </p>
           <hr />
           <p>Ваши организации:</p>
           {/* ОТОБРАЖЕНИЕ ОРГАНИЗАЦИЙ/ДЕПАРТАМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
@@ -103,7 +97,7 @@ const MainPage = () => {
 
         <>
           {
-            Object.keys(depsObj)
+            dep.length
               ?
               <>
                 <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации: {orgName}</p>

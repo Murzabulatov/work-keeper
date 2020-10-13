@@ -34,6 +34,7 @@ const Profile = () => {
         ?
         <>
           <div className="profile__page">
+            <h1>ЛИЧНЫЙ КАБИНЕТ</h1>
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
               + Добавить организацию
         </Button>
