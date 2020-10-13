@@ -23,6 +23,7 @@ function App() {
   const user = useSelector(state => state.user)
   const organizations = useSelector(state => state.organizations)
 
+  console.log('1111!!!!')
 
 
   return (

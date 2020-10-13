@@ -85,6 +85,7 @@ const socketToRoom = {};
 
 io.on('connection', socket => {
   socket.on("join room", roomID => {
+    console.log('join')
     if (users[roomID]) {
       const length = users[roomID].length;
       if (length === 20) {
