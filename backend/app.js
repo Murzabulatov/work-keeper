@@ -13,7 +13,7 @@ const options = {
 
 const server = https.createServer(options, app);
 
-const io = socket(server);
+const io = socket.listen(server);
 const dbConnect = require('./src/dbConnect');
 const userRouter = require('./src/routes/userRouter');
 const orgRouter = require('./src/routes/organizationRouter');
