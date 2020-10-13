@@ -12,8 +12,9 @@ import * as ACTION_ORG from "../../redux/actions/orgActions";
 import { useDispatch } from 'react-redux';
 
 
-export default function ModalWorker({ handleClose, _id: depID, open, orgID }) {
+export default function ModalWorker({ handleClose, _id: depID, open, orgID, setAddWorker, setMesFromBack }) {
 
+  console.log(depID)
 
   const [input, setInput] = useState('');
 
@@ -41,13 +42,17 @@ export default function ModalWorker({ handleClose, _id: depID, open, orgID }) {
 
 
       if (response.ok) {
-        // НУЖНА ЛОГИКА
-        // dispatch(ACTION_DEP.DEP_ADD_DEP(depID, result));
-        dispatch(ACTION_ORG.DEP_TO_ORG(depID, result._id));
+        // НУЖНА ЛОГИКА 
+        dispatch(ACTION_DEP.WORKER_TO_DEP(orgID, depID, result));
+        // dispatch(ACTION_ORG.DEP_TO_ORG(depID, result._id));
+
+        return setAddWorker(result)
       }
+      return setMesFromBack(result.message)
 
 
     } catch (err) {
+      setMesFromBack(err.message)
       console.log(err);
     }
   }
