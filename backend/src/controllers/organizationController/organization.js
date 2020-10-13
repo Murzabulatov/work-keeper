@@ -25,7 +25,13 @@ module.exports.getAllInfo = async function (req, res) {
 
     const thisUser = await User.findOne({ _id: userID })
       .populate('organization')
-      .populate('departments')
+      .populate({
+        path: 'departments',
+        populate: {
+          path: 'organization',
+          populate: { path: 'departments' }
+        }
+      })
       .populate({
         path: 'organization',
         populate: { path: 'departments' }
