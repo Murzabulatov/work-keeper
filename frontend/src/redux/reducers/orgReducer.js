@@ -15,7 +15,7 @@ const orgReducer = (state = [], action) => {
         if (el._id === action.payload.orgID) return {
           ...el,
           departments: [
-            ...el.departments, action.payload.depID
+            ...el.departments, action.payload.depObj
           ]
         }
         return el;

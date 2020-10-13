@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import * as ACTION_MAIN_PAGE from "../../redux/actions/mainPageActions";
 import CreatorContext from '../contexts/creatorContext';
+import OrganizationCard from '../OrganizationCard';
 
 
 const MainPage = () => {
 
+  console.log('>>>>>>>>>>>>>>>>>>>>>MAINPAGE************');
   const { creator, setCreator } = useContext(CreatorContext);
 
   //console.log(setCreator(false), '<<<<<<<<<CONTEXT');
@@ -16,6 +19,7 @@ const MainPage = () => {
   const [dep, setDep] = useState([])
   const [orgName, setOrgName] = useState('')
   const [userInfo, setUserInfo] = useState({})
+  const [orgArray, setOrgArray] = useState([])
 
   useEffect(() => {
     (async () => {
@@ -40,6 +44,7 @@ const MainPage = () => {
             setOrgName(orgName)
           }
 
+          setOrgArray(organization)
           setUserInfo(userInfo)
           dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
           dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
@@ -62,14 +67,14 @@ const MainPage = () => {
       {creator
         ?
         <>
-          <p>Для добавления организаций/отделов и их сотрудников, перейдите в личный кабинет </p>
+          <p>Для добавления организаций перейдите в личный кабинет </p>
           <hr />
           <p>Ваши организации:</p>
           {/* ОТОБРАЖЕНИЕ ОРГАНИЗАЦИЙ/ДЕПАРТАМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 */}
 
-          {/* <div className="profile__page">
+          <div className="profile__page">
             {orgArray.length
               ? <ul className="org-list ">
                 {orgArray.map((org) => {
@@ -84,7 +89,7 @@ const MainPage = () => {
               </ul>
               : <p>Нет добавленных организаций</p>
             }
-          </div> */}
+          </div>
 
         </>
 
