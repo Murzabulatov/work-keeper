@@ -10,8 +10,6 @@ import VideocamOffOutlinedIcon from '@material-ui/icons/VideocamOffOutlined';
 
 import './room.sass'
 
-const server = 'https://workkeeper.ru'
-
 const Video = (props) => {
   const ref = useRef();
 
@@ -40,7 +38,7 @@ const Room = (props) => {
   const [microParams, setMicroParams] = useState(false); // Для включения/выключения звука
 
   useEffect(() => {
-    socketRef.current = io.connect(server);
+    socketRef.current = io.connect(process.env.REACT_APP_SERVER_URL);
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
       .then(stream => {
         userVideo.current.srcObject = stream;

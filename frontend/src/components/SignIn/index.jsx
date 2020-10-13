@@ -8,7 +8,6 @@ import Chat from '../Chat';
 import io from "socket.io-client";
 import {useSelector} from "react-redux";
 
-const server = 'https://workkeeper.ru'
 
 function App() {
 
@@ -30,10 +29,10 @@ function App() {
 
     useEffect(  () => {
 
-        socketRef.current = io.connect(server);
+        socketRef.current = io.connect(process.env.REACT_APP_SERVER_URL);
 
         (async () => {
-            await axios.post(`${server}/rooms`, obj);
+            await axios.post(`${process.env.REACT_APP_SERVER_URL}/rooms`, obj);
 
             dispatch({
                 type: 'JOINED',
@@ -41,7 +40,7 @@ function App() {
             });
 
             socketRef.current.emit('ROOM:JOIN', obj);
-            const { data } = await axios.get(`${server}/rooms/${obj.roomId}`);
+            const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/rooms/${obj.roomId}`);
             dispatch({
                 type: 'SET_DATA',
                 payload: data,
