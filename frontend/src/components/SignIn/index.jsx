@@ -8,12 +8,13 @@ import Chat from '../Chat';
 import io from "socket.io-client";
 import {useSelector} from "react-redux";
 
+const server = 'https://workkeeper.ru'
+
 function App() {
 
     const {name, surname} = useSelector(state => state.user)
 
     const chat = '123'
-    console.log(chat)
 
     const socketRef = useRef();
 
@@ -29,19 +30,18 @@ function App() {
 
     useEffect(  () => {
 
-        socketRef.current = io.connect("/");
+        socketRef.current = io.connect(server);
 
         (async () => {
-            await axios.post('/rooms', obj);
+            await axios.post(`${server}/rooms`, obj);
 
             dispatch({
                 type: 'JOINED',
                 payload: obj,
             });
 
-            console.log('room join')
             socketRef.current.emit('ROOM:JOIN', obj);
-            const { data } = await axios.get(`/rooms/${obj.roomId}`);
+            const { data } = await axios.get(`${server}/rooms/${obj.roomId}`);
             dispatch({
                 type: 'SET_DATA',
                 payload: data,
@@ -50,7 +50,6 @@ function App() {
 
 
         return () => {
-            console.log('disc')
             socketRef.current.disconnect()
         }
 
@@ -75,6 +74,7 @@ function App() {
         socketRef.current.on('ROOM:SET_USERS', setUsers);
         socketRef.current.on('ROOM:NEW_MESSAGE', addMessage);
     }, []);
+
 
     return (
       <Chat userInfo={name + ' ' + surname} {...state} socketRef={socketRef} onAddMessage={addMessage} />

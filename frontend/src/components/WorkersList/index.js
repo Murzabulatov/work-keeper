@@ -5,6 +5,8 @@ import WorkerInfo from '../WorkerInfo';
 
 const WorkersList = ({ workersArr }) => {
 
+  console.log(workersArr)
+
   return (
     <>
       <div>Salam WorkersList</div>

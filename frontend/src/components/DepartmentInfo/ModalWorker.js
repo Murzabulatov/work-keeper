@@ -14,7 +14,6 @@ import { useDispatch } from 'react-redux';
 
 export default function ModalWorker({ handleClose, _id: depID, open, orgID }) {
 
-  console.log(depID)
 
   const [input, setInput] = useState('');
 
@@ -42,9 +41,9 @@ export default function ModalWorker({ handleClose, _id: depID, open, orgID }) {
 
 
       if (response.ok) {
-        // НУЖНА ЛОГИКА 
+        // НУЖНА ЛОГИКА
         // dispatch(ACTION_DEP.DEP_ADD_DEP(depID, result));
-        // dispatch(ACTION_ORG.DEP_TO_ORG(depID, result._id));
+        dispatch(ACTION_ORG.DEP_TO_ORG(depID, result._id));
       }
 
 
