@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer({ children }) {
+export default function MiniDrawer({ children, setLoggedIn }) {
 
   const aboutMe = useSelector(state => state.aboutMe)
   const { userID, name, surname } = useSelector(state => state.user)
@@ -103,6 +103,7 @@ export default function MiniDrawer({ children }) {
   const depActual = useSelector(state => state.department)
 
   const handleQuit = () => {
+    setLoggedIn(false)
     dispatch(ACTION_TASKS.LOGOUT())
     dispatch(ACTION_TASKS.IS_NOT_ME())
     localStorage.clear()

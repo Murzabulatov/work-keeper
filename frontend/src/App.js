@@ -40,6 +40,8 @@ function App() {
 
           const { departments, organization, ...userInfo } = result;
 
+          console.log(departments)
+
           if (!organization.length) {
             const orgObj = departments[0].organization
             const { _id: orgID, name: orgName } = orgObj
@@ -72,7 +74,7 @@ function App() {
   return (
     <div className="App">
 
-      <LeftMenu >
+      <LeftMenu setLoggedIn={setLoggedIn}>
 
         <Switch>
 

@@ -9,6 +9,7 @@ import VideocamOutlinedIcon from '@material-ui/icons/VideocamOutlined';
 import VideocamOffOutlinedIcon from '@material-ui/icons/VideocamOffOutlined';
 
 import './room.sass'
+import {useSelector} from "react-redux";
 
 const Video = (props) => {
   const ref = useRef();
@@ -26,12 +27,12 @@ const Video = (props) => {
 }
 
 
-const Room = (props) => {
+const Room = () => {
   const [peers, setPeers] = useState([]);
   const socketRef = useRef();
   const userVideo = useRef();
   const peersRef = useRef([]);
-  const roomID = props.match.params.roomID;
+  const roomID = useSelector(state => state.department.videoConf);
   const userStream = useRef();
 
   const [videoParams, setVideoParams] = useState(true); // Для включения/выключения видео
@@ -78,7 +79,6 @@ const Room = (props) => {
             peer,
           }
 
-          // setPeers(users => users.map(el => el.peerID === peerObj.peerID ? {...el} : {...peerObj} ));
 
           setPeers(users => {
             let newUsers = users.filter(el => el.peerID !== peerObj.peerID)

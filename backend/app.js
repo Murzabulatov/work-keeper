@@ -36,19 +36,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/user', userRouter);
 
-///////////HASAN BACK////////
-
 app.use('/organization', orgRouter);
 app.use('/department', departRouter);
 app.use('/worker', workerRouter);
 
 
-////////////////////////////
-
 const rooms = new Map();
 
 http.get('*', function(req, res) {
-  console.log(req.url)
   res.redirect('https://workkeeper.ru');
 })
 
@@ -113,7 +108,6 @@ io.on('connection', socket => {
     socket.join(roomId);
     rooms.get(roomId).get('users').set(socket.id, userName);
     const users = [...rooms.get(roomId).get('users').values()];
-    console.log(users)
     socket.to(roomId).broadcast.emit('ROOM:SET_USERS', users);
   });
 
@@ -151,7 +145,6 @@ app.get('*', (req, res) => {
 
 http.listen(process.env.HTTP_PORT|| 8080, (err)=> {
   if (err) throw err;
-  console.log('Http server started')
 });
 
 server.listen(app.locals.settings.port, () => {

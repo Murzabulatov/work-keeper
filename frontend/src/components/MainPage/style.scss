@@ -1,0 +1,23 @@
+.main-page {
+  padding: 20px;
+  h1 {
+    font-size: 3rem;
+  }
+  p {
+    font-size: 1.4rem;
+  }
+}
+
+.profile__page {
+  display: flex;
+  margin-top: 100px;
+  justify-content: center;
+  .MuiCardContent-root {
+    padding: 0 10px !important;
+  }
+  a {
+    &:not(last-child) {
+      margin-right: 50px;
+    }
+  }
+}

@@ -24,13 +24,15 @@ function App() {
         messages: [],
     });
 
-    let obj = {roomId: chat, userName: name + ' ' + surname}
+
 
     useEffect(  () => {
 
         socketRef.current = io(process.env.REACT_APP_SERVER_URL);
 
         (async () => {
+            let obj = {roomId: chat, userName: name + ' ' + surname}
+
 
             socketRef.current.emit('ROOM:JOIN', obj);
 
@@ -43,7 +45,6 @@ function App() {
 
 
             const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/rooms/${obj.roomId}`);
-            console.log(data, 'data <<<<<<<')
             dispatch({
                 type: 'SET_DATA',
                 payload: data,
@@ -51,18 +52,19 @@ function App() {
 
         })()
 
-        socketRef.current.on('ROOM:SET_USERS', setUsers);
-        socketRef.current.on('ROOM:NEW_MESSAGE', addMessage);
-
         return () => {
             socketRef.current.disconnect()
         }
 
     }, [])
 
+    useEffect(() => {
+        socketRef.current.on('ROOM:SET_USERS', setUsers);
+        socketRef.current.on('ROOM:NEW_MESSAGE', addMessage);
+    }, [])
 
     const setUsers = (users) => {
-        console.log(users)
+        console.log(users, 'jkasdhkashdoiasdho')
         dispatch({
             type: 'SET_USERS',
             payload: users,
