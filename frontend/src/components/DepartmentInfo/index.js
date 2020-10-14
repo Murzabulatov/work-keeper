@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom'
 import ModalWorker from "./ModalWorker";
@@ -32,7 +32,11 @@ const DepartmentInfo = ({ organizations }) => {
   const workersArr = useSelector(state => state.department.workers)
   console.log('workersArr', workersArr);
 
-
+  useEffect(() => {
+    return (() => {
+      dispatch(ACTION_DEP_ACTUAL.DEP_CLEAR_ACTUAL());
+    })
+  }, [])
 
   useEffect(() => {
     console.log(organizations, '<<<<<<<<<<<organizations');
@@ -75,9 +79,9 @@ const DepartmentInfo = ({ organizations }) => {
                 + Добавить сотрудника
               </Button>
               {mesFromBack &&
-              <span style={{ color: "red !important", fontSize: "small" }}>{' ' + mesFromBack}</span>}
+                <span style={{ color: "red !important", fontSize: "small" }}>{' ' + mesFromBack}</span>}
 
-            {open && <ModalWorker open={open} handleClose={handleClose} {...dep} orgID={orgID} setAddWorker={setAddWorker} setMesFromBack={setMesFromBack} />}
+              {open && <ModalWorker open={open} handleClose={handleClose} {...dep} orgID={orgID} setAddWorker={setAddWorker} setMesFromBack={setMesFromBack} />}
             </>
             : ''}
 
