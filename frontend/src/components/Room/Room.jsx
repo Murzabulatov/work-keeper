@@ -67,7 +67,6 @@ const Room = (props) => {
 
           const peer = addPeer(payload.signal, payload.callerID, stream);
 
-          console.log(peersRef.current)
 
           peersRef.current.push({
             peerID: payload.callerID,
@@ -75,19 +74,13 @@ const Room = (props) => {
           })
 
           const peerObj = {
+            peerID: payload.callerID,
             peer,
-            peerID: payload.callerID
           }
 
-          console.log(peersRef.current, peerObj, '!!!!!!!')
-
-          console.log(peerObj.peer._id, 'peer id')
-
-
-          setPeers(users => users.map(el => el.peerID !== peerObj.peerID ? {...el} : {...peerObj} ));
-          // setPeers(users => [...users, peerObj]);
-
         });
+
+
 
         socketRef.current.on("receiving returned signal", payload => {
           const item = peersRef.current.find(p => p.peerID === payload.id);
@@ -98,10 +91,10 @@ const Room = (props) => {
           const peerObj = peersRef.current.find(p => p.peerID === id)
           if (peerObj) {
             peerObj.peer.destroy()
+            const peers = peersRef.current.filter(p => p.peerID !== id)
+            peersRef.current = peers
+            setPeers(peers)
           }
-          const peers = peersRef.current.filter(p => p.peerID !== id)
-          peersRef.current = peers
-          setPeers(peers)
         })
 
       })
@@ -111,6 +104,10 @@ const Room = (props) => {
       socketRef.current.close()
     }
   }, []);
+
+  useEffect(() => {
+    console.log(peers)
+  }, [peers])
 
   useEffect(() => {
     if (userStream.current && userStream.current.getVideoTracks()[0] && userStream.current.getVideoTracks()[0].enabled !== videoParams) {
@@ -152,8 +149,6 @@ const Room = (props) => {
     return peer;
   }
 
-  console.log(peers)
-
   return (
     <div className="videochat-container">
       <div className="videochat-user">
@@ -170,6 +165,7 @@ const Room = (props) => {
       </div>
       <div className="videochat-companions">
           {peers.map(peer =>  {
+            console.log(peer)
             return (
               <Video key={peer.peerID} peer={peer.peer}/>
             )

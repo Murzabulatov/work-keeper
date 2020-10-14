@@ -12,6 +12,10 @@ const registration = async (req, res) => {
     try {
       const userPass = await bcrypt.hash(password, +saltRounds);
 
+      if (await User.findOne({email})) {
+        return res.status(422).json({ message: 'Пользователь с таким email уже существует' });
+      }
+
       const newUser = new User({
         name,
         surname,
