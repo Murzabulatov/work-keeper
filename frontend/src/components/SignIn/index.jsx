@@ -5,8 +5,8 @@ import './index.css'
 
 import reducer from './reducer';
 import Chat from '../Chat';
-import io from "socket.io-client";
 import {useSelector} from "react-redux";
+import io from "socket.io-client";
 
 
 function App() {
@@ -29,7 +29,9 @@ function App() {
 
     useEffect(  () => {
 
-        socketRef.current = io.connect(process.env.REACT_APP_SERVER_URL);
+
+
+        socketRef.current = io(process.env.REACT_APP_SERVER_URL);
 
         (async () => {
             await axios.post(`${process.env.REACT_APP_SERVER_URL}/rooms`, obj);
@@ -45,12 +47,16 @@ function App() {
                 type: 'SET_DATA',
                 payload: data,
             });
+
         })()
 
+        socketRef.current.on('ROOM:SET_USERS', setUsers);
+        socketRef.current.on('ROOM:NEW_MESSAGE', addMessage);
 
         return () => {
             socketRef.current.disconnect()
         }
+
 
     }, [])
 
@@ -69,14 +75,10 @@ function App() {
         });
     };
 
-    useEffect(() => {
-        socketRef.current.on('ROOM:SET_USERS', setUsers);
-        socketRef.current.on('ROOM:NEW_MESSAGE', addMessage);
-    }, []);
 
 
     return (
-      <Chat userInfo={name + ' ' + surname} {...state} socketRef={socketRef} onAddMessage={addMessage} />
+      <Chat userInfo={name + ' ' + surname} socketRef={ socketRef} {...state} onAddMessage={addMessage} />
     );
 }
 

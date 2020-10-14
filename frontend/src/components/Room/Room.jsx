@@ -49,7 +49,7 @@ const Room = (props) => {
         socketRef.current.emit("join room", roomID);
         socketRef.current.on("all users", users => {
           const peers = [];
-          users.forEach(userID => {
+          for (let userID of users) {
             const peer = createPeer(userID, socketRef.current.id, stream);
             peersRef.current.push({
               peerID: userID,
@@ -59,14 +59,14 @@ const Room = (props) => {
               peerID: userID,
               peer
             });
-          })
+          }
+
           setPeers(peers);
         })
 
         socketRef.current.on("user joined", payload => {
 
           const peer = addPeer(payload.signal, payload.callerID, stream);
-
 
           peersRef.current.push({
             peerID: payload.callerID,
@@ -78,9 +78,17 @@ const Room = (props) => {
             peer,
           }
 
+
+
+          // setPeers(users => users.map(el => el.peerID === peerObj.peerID ? {...el} : {...peerObj} ));
+
+          setPeers(users => {
+            let newUsers = users.filter(el => el.peerID !== peerObj.peerID)
+            return [...newUsers, peerObj]
+          });
+
+
         });
-
-
 
         socketRef.current.on("receiving returned signal", payload => {
           const item = peersRef.current.find(p => p.peerID === payload.id);
@@ -101,13 +109,10 @@ const Room = (props) => {
 
     return () => {
       userStream.current.getTracks().forEach(el => el.stop())
-      socketRef.current.close()
+      socketRef.current.destroy()
     }
   }, []);
 
-  useEffect(() => {
-    console.log(peers)
-  }, [peers])
 
   useEffect(() => {
     if (userStream.current && userStream.current.getVideoTracks()[0] && userStream.current.getVideoTracks()[0].enabled !== videoParams) {
@@ -164,8 +169,8 @@ const Room = (props) => {
         </div>
       </div>
       <div className="videochat-companions">
+        {console.log(peers, '22222')}
           {peers.map(peer =>  {
-            console.log(peer)
             return (
               <Video key={peer.peerID} peer={peer.peer}/>
             )
