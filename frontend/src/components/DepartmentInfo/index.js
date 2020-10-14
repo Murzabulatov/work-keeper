@@ -32,11 +32,11 @@ const DepartmentInfo = ({ organizations }) => {
   const workersArr = useSelector(state => state.department.workers)
   console.log('workersArr', workersArr);
 
-  useEffect(() => {
-    return (() => {
-      dispatch(ACTION_DEP_ACTUAL.DEP_CLEAR_ACTUAL());
-    })
-  }, [])
+  // useEffect(() => {
+  //   return (() => {
+  //     dispatch(ACTION_DEP_ACTUAL.DEP_CLEAR_ACTUAL());
+  //   })
+  // }, [])
 
   useEffect(() => {
     console.log(organizations, '<<<<<<<<<<<organizations');
@@ -49,7 +49,7 @@ const DepartmentInfo = ({ organizations }) => {
       setDep(foundDep);
       setOrgID(orgID)
       dispatch(ACTION_DEP_ACTUAL.DEP_ACTUAL(foundDep));
-    };
+    }
   }, [addWorker])
 
   const backHandler = () => {

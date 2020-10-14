@@ -78,8 +78,6 @@ const Room = (props) => {
             peer,
           }
 
-
-
           // setPeers(users => users.map(el => el.peerID === peerObj.peerID ? {...el} : {...peerObj} ));
 
           setPeers(users => {

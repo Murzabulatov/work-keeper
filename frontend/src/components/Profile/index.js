@@ -18,6 +18,8 @@ const Profile = () => {
   const depsObj = useSelector(state => state.departments)
   const userInfo = useSelector(state => state.user)
 
+  const depArray = useSelector(state => state.departments)
+
 
 
   const handleClickOpen = () => {
@@ -32,7 +34,7 @@ const Profile = () => {
 
   return (
     <>
-      {creator && orgArray.map(el => el.creator === userInfo.userID)[0]
+      {creator || orgArray.map(el => el.creator === userInfo.userID)[0]
         ?
         <>
           <div className="profile__page">

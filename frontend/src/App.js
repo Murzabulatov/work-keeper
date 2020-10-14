@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './App.css';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -9,7 +9,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import SignIn from "./components/SignIn";
 import Room from "./components/Room/Room";
 
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Profile from './components/Profile';
 import LeftMenu from './components/Navbar/Navbar';
 import MainPage from './components/MainPage'
@@ -17,6 +17,7 @@ import OrganizationInfo from './components/OrganizationInfo';
 import DepartmentInfo from "./components/DepartmentInfo";
 import WorkerInfo from './components/WorkerInfo'
 import CreatorContext from './components/contexts/creatorContext'
+import * as ACTION_MAIN_PAGE from "./redux/actions/mainPageActions";
 
 function App() {
 
@@ -26,8 +27,53 @@ function App() {
   const organizations = useSelector(state => state.organizations)
 
 
+  const dispatch = useDispatch()
 
-  console.log(creator, 'CREATOR');
+  const [dep, setDep] = useState([])
+  const [orgName, setOrgName] = useState('')
+  const [userInfo, setUserInfo] = useState({})
+  const [orgArray, setOrgArray] = useState([])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${user.userID}`)
+        const result = await response.json()
+
+        if (response.ok) {
+
+          const { departments, organization, ...userInfo } = result;
+          setUserInfo(userInfo)
+
+
+          if (!organization.length) {
+            const orgObj = departments[0].organization
+            const { _id: orgID, name: orgName } = orgObj
+
+            setCreator(false)
+
+            dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
+            dispatch(ACTION_MAIN_PAGE.MAIN_DEPARTMENTS(orgID, departments))
+            dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(orgObj))
+
+
+            setDep(departments);
+            return setOrgName(orgName)
+          }
+
+          setOrgArray(organization)
+          dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
+          dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
+          dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_ORGANIZATIONS(organization))
+        }
+
+
+      } catch (err) {
+        // логику с setMessageBack как в ModalWorker COMPONENT
+        console.log(err);
+      }
+    })();
+  }, [])
 
   return (
     <div className="App">
@@ -63,18 +109,18 @@ function App() {
 
             <Route exact path='/videochat' component={Room} />
 
+            <Route exact path='/global-chat' component={SignIn} />
+
 
             <PrivateRoute exact path={`/profile/:id`}>
               <Profile />
             </PrivateRoute>
 
             <Route exact path="/">
-              {aboutMe.isMe ? <MainPage /> : <Redirect to="/user/registration" />}
+              {aboutMe.isMe ? <MainPage creator={creator} orgArray={orgArray} dep={dep} userInfo={userInfo} orgName={orgName} /> : <Redirect to="/user/registration" />}
             </Route>
 
-            <Route exact path='/global-chat'>
-              <SignIn />
-            </Route>
+
 
           </Switch>
         </LeftMenu>
