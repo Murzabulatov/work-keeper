@@ -9,6 +9,11 @@ const actualDepReducer = (state = {}, action) => {
         ...action.payload
       }
 
+    case ACTION_TYPES.DEP_CLEAR_ACTUAL:
+      return {}
+
+
+
     default:
       return state
   }

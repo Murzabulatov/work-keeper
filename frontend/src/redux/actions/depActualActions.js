@@ -8,11 +8,18 @@ const DEP_ACTUAL = (depObject) => {
   }
 };
 
+const DEP_CLEAR_ACTUAL = () => {
+  return {
+    type: ACTIONS_TYPES.DEP_CLEAR_ACTUAL,
+    payload: {}
+  }
+};
 
 
 
 
 
 export {
-  DEP_ACTUAL
+  DEP_ACTUAL,
+  DEP_CLEAR_ACTUAL
 } 

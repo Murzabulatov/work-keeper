@@ -22,11 +22,14 @@ import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import ChatIcon from '@material-ui/icons/Chat';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import InfoIcon from '@material-ui/icons/Info';
 
 import './navbar.css'
-import {Link, useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import * as ACTION_TASKS from "../../redux/actions/regAndLog";
+import { Typography } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -91,12 +94,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer({children}) {
+export default function MiniDrawer({ children }) {
 
   const aboutMe = useSelector(state => state.aboutMe)
   const { userID, name, surname } = useSelector(state => state.user)
   const dispatch = useDispatch()
 
+  const depActual = useSelector(state => state.department)
 
   const handleQuit = () => {
     dispatch(ACTION_TASKS.LOGOUT())
@@ -140,6 +144,25 @@ export default function MiniDrawer({children}) {
           >
             <MenuIcon />
           </IconButton>
+
+          {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
+          <Link to={'/'} className="nav-link">
+            <Typography variant="h6" noWrap>
+              WORK KEEPER {' '}
+            </Typography>
+          </Link>
+
+          <Typography variant="subtitle1" noWrap>
+            {name} {surname}
+          </Typography>
+
+          <Link to={`/profile/${userID}`} className="nav-link">
+            <Typography variant="subtitle1" noWrap>
+              Личный кабинет
+            </Typography>
+          </Link>
+          {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -171,7 +194,7 @@ export default function MiniDrawer({children}) {
                 </ListItemText>
               </ListItem>
             </Link>
-            {aboutMe.isMe ?
+            {aboutMe.isMe && Object.keys(depActual).length ?
               <>
                 <Link to="/videochat" className="nav-link">
                   <ListItem button>
@@ -191,6 +214,23 @@ export default function MiniDrawer({children}) {
                 </Link>
               </>
               : ''}
+
+            <Link to="#" className="nav-link">
+              <ListItem button>
+                <ListItemIcon><LiveHelpIcon /></ListItemIcon>
+                <ListItemText>
+                  Помощь
+                </ListItemText>
+              </ListItem>
+            </Link>
+            <Link to="#" className="nav-link">
+              <ListItem button>
+                <ListItemIcon><InfoIcon /></ListItemIcon>
+                <ListItemText>
+                  О нас
+                </ListItemText>
+              </ListItem>
+            </Link>
 
           </List>
 
