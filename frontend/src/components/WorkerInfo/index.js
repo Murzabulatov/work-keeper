@@ -6,6 +6,7 @@ import { useHistory, useParams } from 'react-router-dom'
 const WorkerInfo = () => {
   console.log('RENDER WorkerInfo');
 
+
   const { id } = useParams()
   console.log(id, 'WorkerInfo');
   const [worker, setWorker] = useState({})

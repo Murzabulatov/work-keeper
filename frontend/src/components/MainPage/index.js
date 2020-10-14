@@ -1,20 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import * as ACTION_MAIN_PAGE from "../../redux/actions/mainPageActions";
-import CreatorContext from '../contexts/creatorContext';
-import OrganizationCard from '../OrganizationCard';
+import { Link } from 'react-router-dom'; import OrganizationCard from '../OrganizationCard';
 import DepartmentCard from '../DepartmentCard';
 
 
-const MainPage = ({creator, orgArray, dep, userInfo, orgName}) => {
+const MainPage = () => {
 
+  const userInfo = useSelector(state => state.user)
+  const isCreator = useSelector(state => state.aboutMe.isCreator)
+  const orgArray = useSelector(state => state.organizations)
+  const dep = useSelector(state => state.workerDeps)
 
   return (
     <>
       <h1>Главная страница</h1>
 
-      {creator
+      {isCreator
         ?
         <>
           <p>Для добавления организаций перейдите в личный кабинет </p>
@@ -47,7 +48,7 @@ const MainPage = ({creator, orgArray, dep, userInfo, orgName}) => {
             dep.length
               ?
               <>
-                <p> {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации "{orgName}"</p>
+                <p> {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации "{orgArray[0].name}"</p>
                 {/* ОТОБРАЖЕНИЕ ДЕПАРТМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!)
                 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                 */}

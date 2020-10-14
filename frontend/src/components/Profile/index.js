@@ -1,20 +1,19 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalOrg from './ModalOrg';
 import Button from '@material-ui/core/Button';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import OrganizationCard from '../OrganizationCard';
-import CreatorContext from '../contexts/creatorContext';
 import DepartmentCard from "../DepartmentCard";
 
 const Profile = () => {
 
   console.log('RENDER profile');
-  // const { id } = useParams()
+
+  const isCreator = useSelector(state => state.aboutMe.isCreator)
 
   const orgArray = useSelector(state => state.organizations)
   const [open, setOpen] = useState(false);
-  const { creator, setCreator } = useContext(CreatorContext); // CONTEXT
   const depsObj = useSelector(state => state.departments)
   const userInfo = useSelector(state => state.user)
 
@@ -34,7 +33,8 @@ const Profile = () => {
 
   return (
     <>
-      {creator || orgArray.map(el => el.creator === userInfo.userID)[0]
+      {/* ВОЗМОЖНО ЗДЕСЬ БУДЕТ ОШБКА */}
+      {isCreator || orgArray.map(el => el.creator === userInfo.userID)[0]
         ?
         <>
           <div className="profile__page">
@@ -72,11 +72,11 @@ const Profile = () => {
                   {Object.values(depsObj).map(el => el.map((dep) => {
                     console.log(dep)
                     return (
-                    <Link to={`/department/${dep._id}`} key={dep._id}>
-                    <li className="dep-list-task">
-                    <DepartmentCard {...dep} />
-                    </li>
-                    </Link>
+                      <Link to={`/department/${dep._id}`} key={dep._id}>
+                        <li className="dep-list-task">
+                          <DepartmentCard {...dep} />
+                        </li>
+                      </Link>
                     )
                   }))}
                 </ul>

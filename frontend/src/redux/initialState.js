@@ -1,7 +1,7 @@
 const initialState = () => {
   const initialValue = {
     aboutMe: {
-      isMe: false,
+      isCreator: true,
     },
 
     user: {},
@@ -10,7 +10,9 @@ const initialState = () => {
 
     departments: {},
 
-    department: {}
+    department: {},
+
+    workerDeps: []
   }
 
   return JSON.parse(localStorage.getItem('redux')) || initialValue

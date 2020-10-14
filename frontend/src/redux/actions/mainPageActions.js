@@ -8,6 +8,21 @@ const MAIN_USER = (userInfo) => {
   }
 };
 
+const MAIN_IS_CREATOR = () => {
+  return {
+    type: ACTIONS_TYPES.MAIN_IS_CREATOR,
+    payload: true
+  }
+};
+
+const MAIN_IS_NOT_CREATOR = () => {
+  return {
+    type: ACTIONS_TYPES.MAIN_IS_NOT_CREATOR,
+    payload: false
+  }
+};
+
+
 const MAIN_DEPARTMENTS = (orgID, departments) => {
   return {
     type: ACTIONS_TYPES.MAIN_DEPARTMENTS,
@@ -45,6 +60,14 @@ const MAIN_ORGANIZATIONS = (orgObj) => {
   }
 };
 
+const BACK_WORKER_DEPS = (depArr) => {
+  return {
+    type: ACTIONS_TYPES.BACK_WORKER_DEPS,
+    payload: {
+      depArr
+    }
+  }
+};
 
 
 
@@ -53,5 +76,8 @@ export {
   MAIN_DEPARTMENTS,
   MAIN_ORGANIZATIONS,
   MAIN_CREATOR_ORGANIZATIONS,
-  MAIN_CREATOR_DEPARTMENTS
+  MAIN_CREATOR_DEPARTMENTS,
+  MAIN_IS_CREATOR,
+  MAIN_IS_NOT_CREATOR,
+  BACK_WORKER_DEPS,
 } 

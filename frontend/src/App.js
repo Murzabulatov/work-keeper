@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import RegistrationPage from './components/RegistrationPage';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -9,62 +9,56 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import SignIn from "./components/SignIn";
 import Room from "./components/Room/Room";
 
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Profile from './components/Profile';
 import LeftMenu from './components/Navbar/Navbar';
 import MainPage from './components/MainPage'
 import OrganizationInfo from './components/OrganizationInfo';
 import DepartmentInfo from "./components/DepartmentInfo";
 import WorkerInfo from './components/WorkerInfo'
-import CreatorContext from './components/contexts/creatorContext'
-import * as ACTION_MAIN_PAGE from "./redux/actions/mainPageActions";
+import * as ACTION_MAIN from "./redux/actions/mainPageActions";
 
 function App() {
+  console.log('RENDER APP^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
 
-  const [creator, setCreator] = useState(true)
   const aboutMe = useSelector(state => state.aboutMe);
   const user = useSelector(state => state.user)
-  const organizations = useSelector(state => state.organizations)
 
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const dispatch = useDispatch()
 
-  const [dep, setDep] = useState([])
-  const [orgName, setOrgName] = useState('')
-  const [userInfo, setUserInfo] = useState({})
-  const [orgArray, setOrgArray] = useState([])
-
   useEffect(() => {
+    console.log('AAAAAAAAAA ZASHEL');
     (async () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${user.userID}`)
         const result = await response.json()
+        console.log('AAAAAAAAAA DOGBALLS');
 
         if (response.ok) {
 
           const { departments, organization, ...userInfo } = result;
-          setUserInfo(userInfo)
-
 
           if (!organization.length) {
             const orgObj = departments[0].organization
             const { _id: orgID, name: orgName } = orgObj
 
-            setCreator(false)
+            dispatch(ACTION_MAIN.MAIN_IS_NOT_CREATOR(userInfo))
 
-            dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
-            dispatch(ACTION_MAIN_PAGE.MAIN_DEPARTMENTS(orgID, departments))
-            dispatch(ACTION_MAIN_PAGE.MAIN_ORGANIZATIONS(orgObj))
+            dispatch(ACTION_MAIN.MAIN_USER(userInfo))
+            dispatch(ACTION_MAIN.MAIN_DEPARTMENTS(orgID, departments))
+            dispatch(ACTION_MAIN.MAIN_ORGANIZATIONS(orgObj))
+
+            dispatch(ACTION_MAIN.BACK_WORKER_DEPS(departments))
 
 
-            setDep(departments);
-            return setOrgName(orgName)
+            return;
           }
 
-          setOrgArray(organization)
-          dispatch(ACTION_MAIN_PAGE.MAIN_USER(userInfo))
-          dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_DEPARTMENTS(organization))
-          dispatch(ACTION_MAIN_PAGE.MAIN_CREATOR_ORGANIZATIONS(organization))
+          dispatch(ACTION_MAIN.MAIN_USER(userInfo))
+          dispatch(ACTION_MAIN.MAIN_CREATOR_DEPARTMENTS(organization))
+          dispatch(ACTION_MAIN.MAIN_CREATOR_ORGANIZATIONS(organization))
         }
 
 
@@ -73,60 +67,57 @@ function App() {
         console.log(err);
       }
     })();
-  }, [])
+  }, [loggedIn])
 
   return (
     <div className="App">
 
-      <CreatorContext.Provider value={{ creator, setCreator }}>
+      <LeftMenu >
 
-        <LeftMenu >
-
-          <Switch>
+        <Switch>
 
 
-            <Route exact path="/user/registration">
-              <RegistrationPage />
-            </Route>
+          <Route exact path="/user/registration">
+            <RegistrationPage setLoggedIn={setLoggedIn} />
+          </Route>
 
-            <Route exact path="/user/login">
-              <LoginPage />
-            </Route>
-
-
-            <Route exact path="/organization/:id">
-              <OrganizationInfo organizations={organizations} />
-            </Route>
-
-            <Route exact path="/worker/:id">
-              <WorkerInfo organizations={organizations} />
-            </Route>
-
-            <Route exact path="/department/:id">
-              <DepartmentInfo organizations={organizations} />
-            </Route>
+          <Route exact path="/user/login">
+            <LoginPage setLoggedIn={setLoggedIn} />
+          </Route>
 
 
-            <Route exact path='/videochat' component={Room} />
+          <Route exact path="/organization/:id">
+            <OrganizationInfo />
+          </Route>
 
-            <Route exact path='/global-chat' component={SignIn} />
+          <Route exact path="/worker/:id">
+            <WorkerInfo />
+          </Route>
+
+          <Route exact path="/department/:id">
+            <DepartmentInfo />
+          </Route>
 
 
-            <PrivateRoute exact path={`/profile/:id`}>
-              <Profile />
-            </PrivateRoute>
+          <Route exact path='/videochat' component={Room} />
 
-            <Route exact path="/">
-              {aboutMe.isMe ? <MainPage creator={creator} orgArray={orgArray} dep={dep} userInfo={userInfo} orgName={orgName} /> : <Redirect to="/user/registration" />}
-            </Route>
+          <Route exact path='/global-chat' component={SignIn} />
+
+
+          <PrivateRoute exact path={`/profile/:id`}>
+            <Profile />
+          </PrivateRoute>
+
+          <Route exact path="/">
+            {aboutMe.isMe ? <MainPage /> : <Redirect to="/user/registration" />}
+          </Route>
 
 
 
-          </Switch>
-        </LeftMenu>
+        </Switch>
+      </LeftMenu>
 
 
-      </CreatorContext.Provider>
     </div>
   );
 }
