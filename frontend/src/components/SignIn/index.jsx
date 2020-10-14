@@ -12,8 +12,7 @@ import io from "socket.io-client";
 function App() {
 
     const {name, surname} = useSelector(state => state.user)
-
-    const chat = '123'
+    const chat = useSelector(state => state.department.chat)
 
     const socketRef = useRef();
 
@@ -29,11 +28,12 @@ function App() {
 
     useEffect(  () => {
 
-
-
         socketRef.current = io(process.env.REACT_APP_SERVER_URL);
 
         (async () => {
+
+            socketRef.current.emit('ROOM:JOIN', obj);
+
             await axios.post(`${process.env.REACT_APP_SERVER_URL}/rooms`, obj);
 
             dispatch({
@@ -41,8 +41,9 @@ function App() {
                 payload: obj,
             });
 
-            socketRef.current.emit('ROOM:JOIN', obj);
+
             const { data } = await axios.get(`${process.env.REACT_APP_SERVER_URL}/rooms/${obj.roomId}`);
+            console.log(data, 'data <<<<<<<')
             dispatch({
                 type: 'SET_DATA',
                 payload: data,
@@ -57,11 +58,11 @@ function App() {
             socketRef.current.disconnect()
         }
 
-
     }, [])
 
 
     const setUsers = (users) => {
+        console.log(users)
         dispatch({
             type: 'SET_USERS',
             payload: users,
@@ -78,7 +79,7 @@ function App() {
 
 
     return (
-      <Chat userInfo={name + ' ' + surname} socketRef={ socketRef} {...state} onAddMessage={addMessage} />
+      <Chat userInfo={name + ' ' + surname} socketRef={socketRef} {...state} onAddMessage={addMessage} />
     );
 }
 

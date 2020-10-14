@@ -7,7 +7,7 @@ function Chat({ users, messages, userName, roomId, onAddMessage, userInfo, socke
 
     const onSendMessage = () => {
       if (messageValue.trim()) {
-        socketRef.emit('ROOM:NEW_MESSAGE', {
+        socketRef.current.emit('ROOM:NEW_MESSAGE', {
           userName,
           roomId,
           text: messageValue,

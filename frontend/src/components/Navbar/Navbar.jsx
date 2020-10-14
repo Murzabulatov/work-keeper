@@ -145,23 +145,16 @@ export default function MiniDrawer({ children }) {
             <MenuIcon />
           </IconButton>
 
-          {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
-          <Link to={'/'} className="nav-link">
-            <Typography variant="h6" noWrap>
-              WORK KEEPER {' '}
-            </Typography>
-          </Link>
+            <Link to={'/'} className="nav-link">
+              <Typography variant="h6" noWrap>
+                WORK KEEPER {' '}
+              </Typography>
+            </Link>
 
-          <Typography variant="subtitle1" noWrap>
-            {name} {surname}
-          </Typography>
+            <Link to={`/profile/${userID}`}  style={{marginLeft: "auto"}} variant="subtitle1" noWrap>
+              {name} {surname}
+            </Link>
 
-          <Link to={`/profile/${userID}`} className="nav-link">
-            <Typography variant="subtitle1" noWrap>
-              Личный кабинет
-            </Typography>
-          </Link>
-          {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */}
 
         </Toolbar>
       </AppBar>
