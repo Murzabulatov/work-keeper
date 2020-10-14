@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {Button} from "@material-ui/core";
 
-function Chat({ users, messages, userName, roomId, onAddMessage, socketRef, userInfo }) {
+function Chat({ users, messages, userName, roomId, onAddMessage, userInfo, socketRef }) {
     const [messageValue, setMessageValue] = React.useState('');
     const messagesRef = React.useRef(null);
 
     const onSendMessage = () => {
       if (messageValue.trim()) {
-        socketRef.current.emit('ROOM:NEW_MESSAGE', {
+        socketRef.emit('ROOM:NEW_MESSAGE', {
           userName,
           roomId,
           text: messageValue,
