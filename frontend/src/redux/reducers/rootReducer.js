@@ -5,10 +5,20 @@ import orgReducer from './orgReducer'
 import depReducer from './depReducer'
 import actualDepReducer from './actualDepReducer'
 
-export default combineReducers({
+const rootReducer = (state, action) => {
+  if (action.type === 'LOGOUT') {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
+
+const appReducer = combineReducers({
   user: usersReducer,
   aboutMe: aboutMeReducer,
   organizations: orgReducer,
   departments: depReducer,
-  department: actualDepReducer
+  department: actualDepReducer,
 })
+
+export default rootReducer

@@ -1,11 +1,12 @@
 import { Button } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom'
 import ModalWorker from "./ModalWorker";
 import * as ACTION_DEP_ACTUAL from "../../redux/actions/depActualActions";
 
 import WorkersList from '../WorkersList';
+import CreatorContext from "../contexts/creatorContext";
 
 // ЧЕКНУТЬ ВСЁ
 const DepartmentInfo = ({ organizations }) => {
@@ -23,6 +24,7 @@ const DepartmentInfo = ({ organizations }) => {
   const history = useHistory()
   const [open, setOpen] = useState(false);
   const [mesFromBack, setMesFromBack] = useState('');
+  const { creator, setCreator } = useContext(CreatorContext); // CONTEXT
 
 
   const departments = useSelector(state => state.departments)
@@ -67,13 +69,18 @@ const DepartmentInfo = ({ organizations }) => {
           <h1>
             {dep.name}
           </h1>
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            + Добавить сотрудника
-          </Button>
-          {mesFromBack &&
-            <span style={{ color: "red !important", fontSize: "small" }}>{' ' + mesFromBack}</span>}
+          {creator ?
+            <>
+              <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+                + Добавить сотрудника
+              </Button>
+              {mesFromBack &&
+              <span style={{ color: "red !important", fontSize: "small" }}>{' ' + mesFromBack}</span>}
 
-          {open && <ModalWorker open={open} handleClose={handleClose} {...dep} orgID={orgID} setAddWorker={setAddWorker} setMesFromBack={setMesFromBack} />}
+            {open && <ModalWorker open={open} handleClose={handleClose} {...dep} orgID={orgID} setAddWorker={setAddWorker} setMesFromBack={setMesFromBack} />}
+            </>
+            : ''}
+
 
           <div>
             <WorkersList workersArr={workersArr} mesFromBack={mesFromBack} />

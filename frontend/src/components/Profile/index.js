@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import ModalOrg from './ModalOrg';
 import Button from '@material-ui/core/Button';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import OrganizationCard from '../OrganizationCard';
 import CreatorContext from '../contexts/creatorContext';
+import DepartmentCard from "../DepartmentCard";
 
 const Profile = () => {
 
@@ -14,11 +15,10 @@ const Profile = () => {
   const orgArray = useSelector(state => state.organizations)
   const [open, setOpen] = useState(false);
   const { creator, setCreator } = useContext(CreatorContext); // CONTEXT
-
-  console.log(creator, '<<<<<CREATOR');
-
   const depsObj = useSelector(state => state.departments)
   const userInfo = useSelector(state => state.user)
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,9 +28,11 @@ const Profile = () => {
     setOpen(false);
   };
 
+  console.log(orgArray.map(el => el.creator === userInfo.userID), '<<<<<<<<<<')
+
   return (
     <>
-      {creator
+      {creator && orgArray.map(el => el.creator === userInfo.userID)[0]
         ?
         <>
           <div className="profile__page">
@@ -61,13 +63,21 @@ const Profile = () => {
 
         <>
           {
-            Object.keys(depsObj)
-              ?
+            Object.keys(depsObj).length && orgArray.map(el => el.creator !== userInfo.userID) ?
               <>
-                <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, здесь перечислены департаменты, в которых Вы состоите: </p>
-                {/* ОТОБРАЖЕНИЕ ДЕПАРТМЕНТОВ С СЕРВЕРНЫХ ДАННЫХ (не из редакс!) 
-              >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-              */}
+                <p> {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации "{orgArray[0].name}"</p>
+                <ul className="org-list ">
+                  {Object.values(depsObj).map(el => el.map((dep) => {
+                    console.log(dep)
+                    return (
+                    <Link to={`/department/${dep._id}`} key={dep._id}>
+                    <li className="dep-list-task">
+                    <DepartmentCard {...dep} />
+                    </li>
+                    </Link>
+                    )
+                  }))}
+                </ul>
               </>
               : <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, подождите, пока Вас добавят в список сотрудников на сайте </p>
           }
