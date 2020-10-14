@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Form = ({ title, isReg }) => {
+const Form = ({ title, isReg, setLoggedIn }) => {
   const classes = useStyles();
   const history = useHistory()
 
@@ -77,6 +77,7 @@ const Form = ({ title, isReg }) => {
           password: ''
         });
 
+        setLoggedIn(true)
         history.push('/')
 
       } else {
@@ -116,6 +117,7 @@ const Form = ({ title, isReg }) => {
           password: ''
         });
 
+        setLoggedIn(true)
         history.push('/')
 
       } else {
