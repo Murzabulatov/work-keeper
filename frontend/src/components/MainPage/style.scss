@@ -11,18 +11,12 @@
 
 .profile__page {
   display: grid;
+  text-align: center;
   margin-top: 50px;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr) );
   grid-gap: 40px;
-  a {
+  a, div {
     justify-self: center;
   }
-  .MuiCardContent-root {
-    padding: 0 10px !important;
-  }
-  a {
-    &:not(last-child) {
-      margin-right: 50px;
-    }
-  }
+
 }

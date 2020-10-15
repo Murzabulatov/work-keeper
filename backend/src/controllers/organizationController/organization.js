@@ -3,7 +3,6 @@ const User = require('../../models/HASAN.user.model')
 
 const errorHandler = require('../../helpers/errorHandler')
 
-
 const serializeUser = (user) => ({
   organization: user.organization,
   departments: user.departments,
@@ -17,7 +16,6 @@ const serializeUser = (user) => ({
 
 })
 
-// ПОЛУЧАЕМ ОРГАНИЗАЦИЮ по userID
 module.exports.getAllInfo = async function (req, res) {
   const { userID } = req.query
 
@@ -38,7 +36,6 @@ module.exports.getAllInfo = async function (req, res) {
       })
 
     const userToSand = serializeUser(thisUser)
-    console.log(userToSand, '<<<<<<<CREATORUser');
 
     return res.status(200).json(userToSand)
 
@@ -47,11 +44,9 @@ module.exports.getAllInfo = async function (req, res) {
   }
 }
 
-// СОЗДАЕМ ОРГАНИЗАЦИЮ
 module.exports.create = async function (req, res) {
   try {
     const { nameOrg, userID } = req.body
-    console.log('REQBODY', req.body);
 
     const newOrg = new Organization({
       creator: userID,
@@ -65,17 +60,13 @@ module.exports.create = async function (req, res) {
       { $push: { organization: newOrg._id } }
     );
 
-
     res.status(201).json(newOrg)
   } catch (e) {
     errorHandler(res, e)
   }
 
-
-
 }
 
-// УДАЛЯЕМ ОРГАНИЗАЦИЮ
 module.exports.delete = async function (req, res) {
   try {
     await Organization.remove({ _id: req.params.id })

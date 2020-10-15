@@ -3,16 +3,13 @@ const Department = require('../../models/HASAN.department.model');
 const User = require('../../models/HASAN.user.model')
 const short = require('short-uuid');
 
-
 const errorHandler = require('../../helpers/errorHandler')
 
-// ПОЛУЧАЕМ ДЕПАРТМЕНТ по userID
 module.exports.getAllInfo = async function (req, res) {
   const { userID } = req.query
 
   try {
     const org = await Organization.find({ creator: userID }).populate({ path: 'Department' })
-    console.log(org);
 
     res.status(200).json(org)
   } catch (e) {
@@ -20,11 +17,9 @@ module.exports.getAllInfo = async function (req, res) {
   }
 }
 
-// СОЗДАЕМ ДЕПАРТМЕНТ
 module.exports.create = async function (req, res) {
   try {
     const { nameDepart, userID, orgID } = req.body
-    console.log('REQBODY', req.body);
 
     const newDepart = new Department({
       creator: userID,
@@ -33,8 +28,6 @@ module.exports.create = async function (req, res) {
       videoConf: short.generate(),
       chat: short.generate()
     });
-
-    console.log(newDepart);
 
     await newDepart.save();
 
@@ -53,7 +46,6 @@ module.exports.create = async function (req, res) {
 
 }
 
-// УДАЛЯЕМ ДЕПАРТМЕНТ
 module.exports.delete = async function (req, res) {
   try {
     await Department.remove({ _id: req.params.id })
@@ -74,21 +66,15 @@ module.exports.update = async function (req, res) {
 
   workerEmail = workerEmail.toLowerCase()
 
-
   try {
 
     const updateUser = await User.findOne({ email: workerEmail })
-    console.log(updateUser, '<<<<<<<<<UPDATE USER');
-    //если не найден
     if (!updateUser) {
       return res.status(500).json({ message: 'Данного работника нет в базе системы. Попросите его зарегистрироваться.' })
 
     }
 
-    // КАК переводить из мангусовского объекта в обычный?
-    const isPresent = updateUser.departments.find(dep => dep == depID)  // dep - это ID  // const updateUser = await User.findOneAndUpdate(
-    console.log(isPresent, '<<<<<<IS PRESENT');
-    console.log(typeof depID, '<<<<<<DEPID');
+    const isPresent = updateUser.departments.find(dep => dep == depID)
 
     if (isPresent == undefined) {
       updateUser.departments.push(depID);
@@ -113,13 +99,6 @@ module.exports.update = async function (req, res) {
     }
 
     return res.status(500).json({ message: 'Данный работник уже есть в системе!' })
-
-    // const updateUser = await User.findOneAndUpdate(
-    //   { email: workerEmail },
-    //   { $push: { departments: depID } },
-    //   { new: true }
-    // );
-
 
   } catch (e) {
     errorHandler(res, e)

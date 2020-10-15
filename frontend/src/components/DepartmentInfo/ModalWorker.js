@@ -4,17 +4,13 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import * as ACTION_DEP from "../../redux/actions/depActions";
-import * as ACTION_ORG from "../../redux/actions/orgActions";
 import { useDispatch } from 'react-redux';
 
 
 export default function ModalWorker({ handleClose, _id: depID, open, orgID, setAddWorker, setMesFromBack }) {
-
-  console.log(depID)
 
   const [input, setInput] = useState('');
 
@@ -23,9 +19,7 @@ export default function ModalWorker({ handleClose, _id: depID, open, orgID, setA
   const addWorker = async () => {
     handleClose();
     try {
-      if (input.trim()) { // проверка на пустую строчку
-
-
+      if (input.trim()) {
         const data = {
           workerEmail: input.trim(),
         }
@@ -36,13 +30,6 @@ export default function ModalWorker({ handleClose, _id: depID, open, orgID, setA
           body: JSON.stringify(data),
         })
         const result = await response.json();
-
-
-
-        //////
-        console.log('ПОСЛЕ ДОБАВЛЕНИЯ WORKER-a', result);
-        //////
-
 
         if (response.ok) {
           dispatch(ACTION_DEP.WORKER_TO_DEP(orgID, depID, result));
@@ -57,10 +44,6 @@ export default function ModalWorker({ handleClose, _id: depID, open, orgID, setA
       console.log(err);
     }
   }
-
-
-
-
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

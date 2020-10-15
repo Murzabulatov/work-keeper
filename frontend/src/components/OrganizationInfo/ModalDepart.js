@@ -21,7 +21,6 @@ export default function ModalDepart({ open, handleClose, orgID }) {
     handleClose();
 
     const { user: { userID } } = JSON.parse(localStorage.getItem('redux'));
-    console.log(userID);
 
     try {
       if (input.trim()) { // проверка на пустую строчку
@@ -37,12 +36,6 @@ export default function ModalDepart({ open, handleClose, orgID }) {
           body: JSON.stringify(data),
         })
         const result = await response.json();
-
-
-
-        //////
-        console.log('ПОСЛЕ ДОБАВЛЕНИЯ ДЕПАРТМЕНТА', result);
-        //////
 
 
         if (response.ok) {

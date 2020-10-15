@@ -15,7 +15,28 @@ import Loader from '../Loader';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    width: 250,
+    height: 250,
+    alignItems: 'center',
+    display: 'flex',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    flex: '1 0 auto',
+    marginTop: 20,
+  },
+  controls: {
+    marginTop: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  playIcon: {
+    height: 50,
+    width: 50,
   },
 });
 
@@ -32,72 +53,89 @@ const MainPage = () => {
 
   return (
     <div className="main-page">
-      <h1>Главная страница</h1>
+      <h1>Главная</h1>
 
-      {isCreator
-        ?
+      <hr />
+
+      {isLoading ? <Loader /> :
         <>
-          <p>Для добавления организаций перейдите в личный кабинет </p>
-          <hr />
-          <p>Ваши организации:</p>
+          {isCreator
+            ?
+            <>
+              <p>Для добавления организаций перейдите в <Link style={{fontSize: 'inherit', textDecoration: 'underline'}} to={`/profile/${userInfo.userID}`}>личный кабинет</Link> </p>
+              <hr />
+              <p>Ваши организации:</p>
 
-          <div className="profile__page">
-            {orgArray.length ?
-              <>
-                {orgArray.map((org) => {
-                  return (
-                    <Link to={`/organization/${org._id}`} key={org._id}>
-                        <Card className={classes.root}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="180"
-                              image="https://static.tildacdn.com/tild3639-3835-4237-b964-623565623163/MoscowCityofficerentals.png"
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                              <Typography style={{marginTop: 10}} gutterBottom variant="h5" component="h2">
-                                {org.name}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
-                    </Link>
-                  )
-                })}
-              </>
-              : <p>Нет добавленных организаций</p>
-            }
-          </div>
+              <div className="profile__page">
+                {orgArray.length ?
+                  <>
+                    {orgArray.map((org) => {
+                      return (
+                        <Link to={`/organization/${org._id}`} key={org._id}>
+                          <Card className={classes.root}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="180"
+                                image="https://static.tildacdn.com/tild3639-3835-4237-b964-623565623163/MoscowCityofficerentals.png"
+                                title="Contemplative Reptile"
+                              />
+                              <CardContent>
+                                <Typography style={{marginTop: 10}} gutterBottom variant="h5" component="h2">
+                                  {org.name}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </Link>
+                      )
+                    })}
+                  </>
+                  : <p>Нет добавленных организаций</p>
+                }
+              </div>
 
-        </>
+            </>
 
-        :
+            :
 
-        <>
-          {
-            dep.length
-              ?
-              <>
-                <p> {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации "{orgArray[0].name}"</p>
-                <ul className="org-list ">
-                  {dep.map((dep) => {
-                    return (
-                      <Link to={`/department/${dep._id}`} key={dep._id}>
-                        <li className="dep-list-task">
-                          {dep.name}
-                        </li>
-                      </Link>
-                    )
-                  })}
-                </ul>
-              </>
-              : <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, подождите, пока Вас добавят в список сотрудников на сайте </p>
+            <>
+              {
+                dep.length
+                  ?
+                  <div className="profile__page">
+                    {dep.map((dep) => {
+                      return (
+                        <Link to={`/department/${dep._id}`} key={dep._id}>
+                          <Card className={classes.root}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                alt="Contemplative Reptile"
+                                height="170"
+                                image="https://cdnb.artstation.com/p/assets/images/images/001/973/811/large/leva-tuskliy-4.jpg?1455395165"
+                                title="Contemplative Reptile"
+                              />
+                              <CardContent>
+                                <Typography style={{marginTop: 10}} gutterBottom variant="h6" component="h6">
+                                  {dep.name}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                  : <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, подождите, пока Вас добавят в список сотрудников на сайте </p>
+              }
+            </>
           }
         </>
       }
-      {isLoading && <Loader />}
+
+
     </div>
 
   )

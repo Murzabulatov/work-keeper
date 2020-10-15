@@ -7,7 +7,6 @@ const saltRounds = process.env.saltRounds ?? 10;
 
 const registration = async (req, res) => {
   const { name, surname, email, password } = req.body;
-  console.log(req.body);
   if (name && email && password && surname) {
     try {
       const userPass = await bcrypt.hash(password, +saltRounds);

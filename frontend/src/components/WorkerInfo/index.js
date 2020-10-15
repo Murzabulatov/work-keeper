@@ -15,9 +15,7 @@ const WorkerInfo = () => {
   const workers = useSelector(state => state.department.workers)
 
   useEffect(() => {
-    console.log('THIS WORKER', id);
     const thisWorker = workers.find(worker => worker._id === id)
-    console.log('THIS WORKER', thisWorker);
     setWorker(thisWorker);
   }, [])
 
