@@ -96,6 +96,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MiniDrawer({ children, setLoggedIn }) {
 
+
+  const history = useHistory()
+  console.log('HISTORY', history);
   const aboutMe = useSelector(state => state.aboutMe)
   const { userID, name, surname } = useSelector(state => state.user)
   const dispatch = useDispatch()
@@ -105,8 +108,11 @@ export default function MiniDrawer({ children, setLoggedIn }) {
   const handleQuit = () => {
     setLoggedIn(false)
     dispatch(ACTION_TASKS.LOGOUT())
+
+    history.push('/user/login')
     dispatch(ACTION_TASKS.IS_NOT_ME())
     localStorage.clear()
+
   }
 
   const classes = useStyles();
@@ -146,15 +152,15 @@ export default function MiniDrawer({ children, setLoggedIn }) {
             <MenuIcon />
           </IconButton>
 
-            <Link to={'/'} className="nav-link">
-              <Typography variant="h6" noWrap>
-                WORK KEEPER {' '}
-              </Typography>
-            </Link>
+          <Link to={'/'} className="nav-link">
+            <Typography variant="h6" noWrap>
+              WORK KEEPER {' '}
+            </Typography>
+          </Link>
 
-            <Link to={`/profile/${userID}`}  style={{marginLeft: "auto"}} variant="subtitle1" noWrap>
-              {name} {surname}
-            </Link>
+          <Link to={`/profile/${userID}`} style={{ marginLeft: "auto" }} variant="subtitle1" noWrap>
+            {name} {surname}
+          </Link>
 
 
         </Toolbar>

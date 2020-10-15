@@ -23,34 +23,35 @@ export default function ModalWorker({ handleClose, _id: depID, open, orgID, setA
   const addWorker = async () => {
     handleClose();
     try {
-      const data = {
-        workerEmail: input,
+      if (input.trim()) { // проверка на пустую строчку
+
+
+        const data = {
+          workerEmail: input.trim(),
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/department/${depID}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+        const result = await response.json();
+
+
+
+        //////
+        console.log('ПОСЛЕ ДОБАВЛЕНИЯ WORKER-a', result);
+        //////
+
+
+        if (response.ok) {
+          dispatch(ACTION_DEP.WORKER_TO_DEP(orgID, depID, result));
+
+          return setAddWorker(result)
+        }
+        return setMesFromBack(result.message)
+
       }
-
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/department/${depID}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      const result = await response.json();
-
-
-
-      //////
-      console.log('ПОСЛЕ ДОБАВЛЕНИЯ WORKER-a', result);
-      //////
-
-
-      if (response.ok) {
-        // НУЖНА ЛОГИКА 
-        dispatch(ACTION_DEP.WORKER_TO_DEP(orgID, depID, result));
-        // dispatch(ACTION_ORG.DEP_TO_ORG(depID, result._id));
-
-        return setAddWorker(result)
-      }
-      return setMesFromBack(result.message)
-
-
     } catch (err) {
       setMesFromBack(err.message)
       console.log(err);
