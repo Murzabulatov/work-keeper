@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 import './style.scss'
+import Loader from '../Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,8 @@ const MainPage = () => {
   const isCreator = useSelector(state => state.aboutMe.isCreator)
   const orgArray = useSelector(state => state.organizations)
   const dep = useSelector(state => state.workerDeps)
+
+  const isLoading = useSelector(state => state.loading)
 
   return (
     <div className="main-page">
@@ -44,22 +47,22 @@ const MainPage = () => {
                 {orgArray.map((org) => {
                   return (
                     <Link to={`/organization/${org._id}`} key={org._id}>
-                        <Card key={org._id} className={classes.root}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              alt="Contemplative Reptile"
-                              height="180"
-                              image="https://static.tildacdn.com/tild3639-3835-4237-b964-623565623163/MoscowCityofficerentals.png"
-                              title="Contemplative Reptile"
-                            />
-                            <CardContent>
-                              <Typography style={{marginTop: 10}} gutterBottom variant="h5" component="h2">
-                                {org.name}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
+                      <Card key={org._id} className={classes.root}>
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            height="180"
+                            image="https://static.tildacdn.com/tild3639-3835-4237-b964-623565623163/MoscowCityofficerentals.png"
+                            title="Contemplative Reptile"
+                          />
+                          <CardContent>
+                            <Typography style={{ marginTop: 10 }} gutterBottom variant="h5" component="h2">
+                              {org.name}
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
                     </Link>
                   )
                 })}
@@ -94,7 +97,9 @@ const MainPage = () => {
           }
         </>
       }
+      {isLoading && <Loader />}
     </div>
+
   )
 }
 
