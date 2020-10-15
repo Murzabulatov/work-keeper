@@ -24,37 +24,45 @@ export default function ModalOrg({ open, handleClose }) {
     console.log(userID);
 
     try {
-      const data = {
-        nameOrg: input,
-        userID
+      if (input.trim()) { // проверка на пустую строчку
+
+        const data = {
+          nameOrg: input.trim(),
+          userID
+        }
+
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        })
+        const result = await response.json();
+
+
+
+        //////
+        console.log('ПОСЛЕ ДОБАВЛЕНИЯ ОРГ', result);
+        //////
+
+
+        if (response.ok) {
+          dispatch(ACTION_ORG.ORG_ADD_ORG(result));
+          dispatch(ACTION_DEP.ORG_KEY_IN_DEP(result._id));
+        }
+
       }
-
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      const result = await response.json();
-
-
-
-      //////
-      console.log('ПОСЛЕ ДОБАВЛЕНИЯ ОРГ', result);
-      //////
-
-
-      if (response.ok) {
-        dispatch(ACTION_ORG.ORG_ADD_ORG(result));
-        dispatch(ACTION_DEP.ORG_KEY_IN_DEP(result._id));
-      }
-
-
     } catch (err) {
       console.log(err);
     }
   }
 
 
+  // const something = (event) => {
+  //   if (event.keyCode === 13) {
+  //     console.log('enter')
+  //     addOrg
+  //   }
+  // }
 
 
 
@@ -74,6 +82,7 @@ export default function ModalOrg({ open, handleClose }) {
             fullWidth
             onChange={(e) => setInput(e.target.value)}
             autoFocus
+          // onKeyDown={(e) => something(e)}
           />
         </form>
       </DialogContent>

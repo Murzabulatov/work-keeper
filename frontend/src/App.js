@@ -19,50 +19,56 @@ import WorkerInfo from './components/WorkerInfo'
 import * as ACTION_MAIN from "./redux/actions/mainPageActions";
 
 function App() {
-  console.log('RENDER APP^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
 
   const aboutMe = useSelector(state => state.aboutMe);
   const user = useSelector(state => state.user)
 
   const [loggedIn, setLoggedIn] = useState(false)
+  console.log('RENDER APP^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', loggedIn);
 
   const dispatch = useDispatch()
 
   useEffect(() => {
+
+
     console.log('AAAAAAAAAA ZASHEL');
     (async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${user.userID}`)
-        const result = await response.json()
-        console.log('AAAAAAAAAA DOGBALLS');
+        // КОСТЫЛЬ
+        if (loggedIn !== false) {
 
-        if (response.ok) {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${user.userID}`)
+          const result = await response.json()
+          console.log('AAAAAAAAAA DOGBALLS');
 
-          const { departments, organization, ...userInfo } = result;
+          if (response.ok) {
 
-          console.log(departments)
+            const { departments, organization, ...userInfo } = result;
 
-          if (!organization.length) {
-            const orgObj = departments[0].organization
-            const { _id: orgID, name: orgName } = orgObj
+            console.log(departments)
 
-            dispatch(ACTION_MAIN.MAIN_IS_NOT_CREATOR(userInfo))
+            if (!organization.length) {
+              const orgObj = departments[0].organization
+              const { _id: orgID, name: orgName } = orgObj
+
+              dispatch(ACTION_MAIN.MAIN_IS_NOT_CREATOR(userInfo))
+
+              dispatch(ACTION_MAIN.MAIN_USER(userInfo))
+              dispatch(ACTION_MAIN.MAIN_DEPARTMENTS(orgID, departments))
+              dispatch(ACTION_MAIN.MAIN_ORGANIZATIONS(orgObj))
+
+              dispatch(ACTION_MAIN.BACK_WORKER_DEPS(departments))
+
+
+              return;
+            }
 
             dispatch(ACTION_MAIN.MAIN_USER(userInfo))
-            dispatch(ACTION_MAIN.MAIN_DEPARTMENTS(orgID, departments))
-            dispatch(ACTION_MAIN.MAIN_ORGANIZATIONS(orgObj))
-
-            dispatch(ACTION_MAIN.BACK_WORKER_DEPS(departments))
-
-
-            return;
+            dispatch(ACTION_MAIN.MAIN_CREATOR_DEPARTMENTS(organization))
+            dispatch(ACTION_MAIN.MAIN_CREATOR_ORGANIZATIONS(organization))
           }
 
-          dispatch(ACTION_MAIN.MAIN_USER(userInfo))
-          dispatch(ACTION_MAIN.MAIN_CREATOR_DEPARTMENTS(organization))
-          dispatch(ACTION_MAIN.MAIN_CREATOR_ORGANIZATIONS(organization))
         }
-
 
       } catch (err) {
         // логику с setMessageBack как в ModalWorker COMPONENT
@@ -111,7 +117,7 @@ function App() {
           </PrivateRoute>
 
           <Route exact path="/">
-            {aboutMe.isMe ? <MainPage /> : <Redirect to="/user/registration" />}
+            {aboutMe.isMe ? <MainPage /> : <Redirect to="/user/login" />}
           </Route>
 
 
