@@ -44,7 +44,7 @@ const MainPage = () => {
                 {orgArray.map((org) => {
                   return (
                     <Link to={`/organization/${org._id}`} key={org._id}>
-                        <Card key={org._id} className={classes.root}>
+                        <Card className={classes.root}>
                           <CardActionArea>
                             <CardMedia
                               component="img"

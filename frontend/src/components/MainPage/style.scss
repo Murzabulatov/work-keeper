@@ -1,6 +1,7 @@
 .main-page {
   padding: 20px;
   h1 {
+    margin: 0;
     font-size: 3rem;
   }
   p {
@@ -10,7 +11,7 @@
 
 .profile__page {
   display: flex;
-  margin-top: 100px;
+  margin-top: 50px;
   justify-content: center;
   .MuiCardContent-root {
     padding: 0 10px !important;

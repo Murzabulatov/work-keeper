@@ -75,7 +75,7 @@ function App() {
         console.log(err);
       }
     })();
-  }, [loggedIn])
+  }, [loggedIn, ])
 
   return (
     <div className="App">
