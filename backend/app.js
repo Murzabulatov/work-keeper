@@ -140,7 +140,7 @@ io.on('connection', socket => {
 });
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'))
+  res.sendFile('index.html', {root: path.join(__dirname, 'public')})
 })
 
 http.listen(process.env.HTTP_PORT|| 8080, (err)=> {
