@@ -21,10 +21,9 @@ export default function ModalOrg({ open, handleClose }) {
     handleClose();
 
     const { user: { userID } } = JSON.parse(localStorage.getItem('redux'));
-    console.log(userID);
 
     try {
-      if (input.trim()) { // проверка на пустую строчку
+      if (input.trim()) {
 
         const data = {
           nameOrg: input.trim(),
@@ -38,13 +37,6 @@ export default function ModalOrg({ open, handleClose }) {
         })
         const result = await response.json();
 
-
-
-        //////
-        console.log('ПОСЛЕ ДОБАВЛЕНИЯ ОРГ', result);
-        //////
-
-
         if (response.ok) {
           dispatch(ACTION_ORG.ORG_ADD_ORG(result));
           dispatch(ACTION_DEP.ORG_KEY_IN_DEP(result._id));
@@ -55,16 +47,6 @@ export default function ModalOrg({ open, handleClose }) {
       console.log(err);
     }
   }
-
-
-  // const something = (event) => {
-  //   if (event.keyCode === 13) {
-  //     console.log('enter')
-  //     addOrg
-  //   }
-  // }
-
-
 
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

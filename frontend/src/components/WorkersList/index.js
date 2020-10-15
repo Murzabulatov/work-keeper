@@ -34,7 +34,7 @@ const WorkersList = ({ workersArr = [] }) => {
         <>
           {workersArr.map((worker) => {
             return (
-            <Card className={classes.root}>
+            <Card key={worker._id} className={classes.root}>
               <div className={classes.details}>
                 <CardContent style={{marginTop: 35}} className={classes.content}>
                   <Typography variant="h5" component="h2">
@@ -45,7 +45,7 @@ const WorkersList = ({ workersArr = [] }) => {
                   </Typography>
                 </CardContent>
                 <div className={classes.controls}>
-                  <Link to={`/worker/${worker._id}`} key={worker._id}>
+                  <Link to={`/worker/${worker._id}`}>
                     <Button className="btn" style={{padding: '5px 10px'}} size="small">Подробнее</Button>
                   </Link>
                 </div>

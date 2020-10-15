@@ -27,33 +27,25 @@ function App() {
   const user = useSelector(state => state.user)
 
   const [loggedIn, setLoggedIn] = useState(false)
-  console.log('RENDER APP^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^', loggedIn);
 
   const dispatch = useDispatch()
 
-  //const isLoading = useSelector(state => state.loading)
 
   useEffect(() => {
 
 
-    console.log('AAAAAAAAAA ZASHEL');
     (async () => {
       dispatch(ACTIONS_LOAD.IS_LOADING())
       try {
-        // КОСТЫЛЬ
         if (loggedIn !== false) {
-          // dispatch(ACTIONS_LOAD.ASYNC_THUNK_NEW_TASK(newTask))
-
 
           const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${user.userID}`)
           const result = await response.json()
-          console.log('AAAAAAAAAA DOGBALLS');
 
           if (response.ok) {
 
             const { departments, organization, ...userInfo } = result;
 
-            console.log(departments)
 
             if (!organization.length) {
               const orgObj = departments[0].organization
@@ -68,6 +60,8 @@ function App() {
               dispatch(ACTION_MAIN.BACK_WORKER_DEPS(departments))
 
 
+              dispatch(ACTIONS_LOAD.NOT_LOADING())
+
               return;
             }
 
@@ -78,13 +72,15 @@ function App() {
 
         }
 
+        dispatch(ACTIONS_LOAD.NOT_LOADING())
+
       } catch (err) {
-        // логику с setMessageBack как в ModalWorker COMPONENT
         console.log(err);
+        dispatch(ACTIONS_LOAD.NOT_LOADING())
       }
-      dispatch(ACTIONS_LOAD.NOT_LOADING())
+
     })();
-  }, [loggedIn, ])
+  }, [loggedIn])
 
   return (
     <div className="App">

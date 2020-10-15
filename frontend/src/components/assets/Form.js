@@ -55,7 +55,6 @@ const Form = ({ title, isReg, setLoggedIn }) => {
 
   async function login(event) {
     event.preventDefault();
-    console.log(inputs);
     try {
       const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/user/login`, {
         method: 'POST',
@@ -63,10 +62,6 @@ const Form = ({ title, isReg, setLoggedIn }) => {
         body: JSON.stringify(inputs),
       })
       const result = await response.json();
-
-      //////
-      console.log('LOGIN', result);
-      //////
 
       if (response.ok) {
         dispatch(ACTION_TASKS.LOGIN(result));
@@ -81,7 +76,6 @@ const Form = ({ title, isReg, setLoggedIn }) => {
         history.push('/')
 
       } else {
-        // console.log(result.message);
         setMessage(result.message);
       }
 
@@ -102,11 +96,6 @@ const Form = ({ title, isReg, setLoggedIn }) => {
       })
       const result = await response.json();
 
-      //////
-      console.log('REGISTRATION', result);
-      //////
-
-
       if (response.ok) {
         dispatch(ACTION_TASKS.REGISTRATION(result));
         dispatch(ACTION_TASKS.IS_ME());
@@ -123,7 +112,6 @@ const Form = ({ title, isReg, setLoggedIn }) => {
       } else {
         setMessage(result.message);
       }
-
 
     } catch (err) {
       console.log(err);

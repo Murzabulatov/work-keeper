@@ -167,7 +167,6 @@ const Room = () => {
         </div>
       </div>
       <div className="videochat-companions">
-        {console.log(peers, '22222')}
           {peers.map(peer =>  {
             return (
               <Video key={peer.peerID} peer={peer.peer}/>

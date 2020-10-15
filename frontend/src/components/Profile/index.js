@@ -64,8 +64,6 @@ const Profile = () => {
     setOpen(false);
   };
 
-  console.log(orgArray.map(el => el.creator === userInfo.userID), '<<<<<<<<<<')
-
   return (
     <>
       {isCreator || orgArray.map(el => el.creator === userInfo.userID)[0]
@@ -128,19 +126,34 @@ const Profile = () => {
           {
             Object.keys(depsObj).length && orgArray.map(el => el.creator !== userInfo.userID) ?
               <>
-                <p> {userInfo.name + ' ' + userInfo.surname}, Вы являетесь сотрудником организации "{orgArray[0].name}"</p>
-                <ul className="org-list ">
+                <div className="profile-page">
+                <h1>Мои отделы</h1>
+                  <hr/>
+                  <div className="profile-container">
                   {Object.values(depsObj).map(el => el.map((dep) => {
-                    console.log(dep)
                     return (
                       <Link to={`/department/${dep._id}`} key={dep._id}>
-                        <li className="dep-list-task">
-                          <DepartmentCard {...dep} />
-                        </li>
+                        <Card className={classes.root}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Contemplative Reptile"
+                              height="170"
+                              image="https://cdnb.artstation.com/p/assets/images/images/001/973/811/large/leva-tuskliy-4.jpg?1455395165"
+                              title="Contemplative Reptile"
+                            />
+                            <CardContent>
+                              <Typography style={{marginTop: 10}} gutterBottom variant="h6" component="h6">
+                                {dep.name}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
                       </Link>
                     )
                   }))}
-                </ul>
+                  </div>
+                </div>
               </>
               : <p> Уважаемый {userInfo.name + ' ' + userInfo.surname}, подождите, пока Вас добавят в список сотрудников на сайте </p>
           }

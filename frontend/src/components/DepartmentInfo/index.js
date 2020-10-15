@@ -71,7 +71,6 @@ const DepartmentInfo = () => {
     const { _id: orgID } = organizations.find(el => el.departments.find(element => element._id === id));
     if (orgID) {
       const foundDep = departments[orgID].find(el => el._id === id) // ТУТ БЫЛО ПРИСВОЕНИЕ, а не сравнение СУКА, и всё ломалось
-      console.log(foundDep, '))))))))))))))))))))))FOUND DEp');
       setDep(foundDep);
       setOrgID(orgID)
       dispatch(ACTION_DEP_ACTUAL.DEP_ACTUAL(foundDep));

@@ -64,7 +64,6 @@ function App() {
     }, [])
 
     const setUsers = (users) => {
-        console.log(users, 'jkasdhkashdoiasdho')
         dispatch({
             type: 'SET_USERS',
             payload: users,
@@ -77,8 +76,6 @@ function App() {
             payload: message,
         });
     };
-
-
 
     return (
       <Chat userInfo={name + ' ' + surname} socketRef={socketRef} {...state} onAddMessage={addMessage} />
