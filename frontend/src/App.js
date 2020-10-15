@@ -84,7 +84,7 @@ function App() {
       }
       dispatch(ACTIONS_LOAD.NOT_LOADING())
     })();
-  }, [loggedIn])
+  }, [loggedIn, ])
 
   return (
     <div className="App">

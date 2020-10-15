@@ -47,22 +47,22 @@ const MainPage = () => {
                 {orgArray.map((org) => {
                   return (
                     <Link to={`/organization/${org._id}`} key={org._id}>
-                      <Card key={org._id} className={classes.root}>
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            alt="Contemplative Reptile"
-                            height="180"
-                            image="https://static.tildacdn.com/tild3639-3835-4237-b964-623565623163/MoscowCityofficerentals.png"
-                            title="Contemplative Reptile"
-                          />
-                          <CardContent>
-                            <Typography style={{ marginTop: 10 }} gutterBottom variant="h5" component="h2">
-                              {org.name}
-                            </Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
+                        <Card className={classes.root}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              alt="Contemplative Reptile"
+                              height="180"
+                              image="https://static.tildacdn.com/tild3639-3835-4237-b964-623565623163/MoscowCityofficerentals.png"
+                              title="Contemplative Reptile"
+                            />
+                            <CardContent>
+                              <Typography style={{marginTop: 10}} gutterBottom variant="h5" component="h2">
+                                {org.name}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
                     </Link>
                   )
                 })}

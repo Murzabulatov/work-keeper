@@ -158,7 +158,7 @@ export default function MiniDrawer({ children, setLoggedIn }) {
             </Typography>
           </Link>
 
-          <Link to={`/profile/${userID}`} style={{ marginLeft: "auto" }} variant="subtitle1" noWrap>
+        <Link to={`/profile/${userID}`} style={{ marginLeft: "auto" }} variant="subtitle1">
             {name} {surname}
           </Link>
 
@@ -246,7 +246,7 @@ export default function MiniDrawer({ children, setLoggedIn }) {
                     </ListItemText>
                   </ListItem>
                 </Link>
-                <Link to="/user/registration" className="nav-link" onClick={handleQuit}>
+                <Link to="/user/login" className="nav-link" onClick={handleQuit}>
                   <ListItem button>
                     <ListItemIcon><MeetingRoomIcon /></ListItemIcon>
                     <ListItemText>
@@ -282,7 +282,7 @@ export default function MiniDrawer({ children, setLoggedIn }) {
 
       </Drawer>
       <main className={classes.content}>
-        <div className={classes.toolbar} />
+        <div  className={classes.toolbar} />
         {children}
       </main>
     </div>
