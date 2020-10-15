@@ -1,20 +1,15 @@
-.org-container {
+.profile-page {
   padding: 20px;
   h1 {
     margin: 0;
     font-size: 3rem;
   }
-  .btn {
-    display: flex;
-    margin: 30px auto;
-    background: white !important;
-    span {
-      color: black !important;
-    }
+  p {
+    font-size: 1.4rem;
   }
 }
 
-.dep-container {
+.profile-container {
   text-align: center;
   display: grid;
   margin-top: 50px;
@@ -23,5 +18,4 @@
   a, div {
     justify-self: center;
   }
-
 }

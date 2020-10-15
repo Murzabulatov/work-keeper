@@ -21,8 +21,8 @@ const useStyles = makeStyles({
 
 const MainPage = () => {
 
-
   const classes = useStyles();
+
   const userInfo = useSelector(state => state.user)
   const isCreator = useSelector(state => state.aboutMe.isCreator)
   const orgArray = useSelector(state => state.organizations)

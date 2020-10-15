@@ -10,9 +10,13 @@
 }
 
 .profile__page {
-  display: flex;
+  display: grid;
   margin-top: 50px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr) );
+  grid-gap: 40px;
+  a {
+    justify-self: center;
+  }
   .MuiCardContent-root {
     padding: 0 10px !important;
   }

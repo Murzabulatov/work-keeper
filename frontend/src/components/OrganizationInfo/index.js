@@ -2,10 +2,9 @@ import { Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom'
-import DepartmentCard from '../DepartmentCard';
 import ModalDepart from './ModalDepart';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
@@ -85,7 +84,7 @@ const OrganizationInfo = ({ }) => {
         isCreator ?
           <div className="org-container">
             { Object.keys(org).length ?
-              <div className="d-flex flex-column align-items-center">
+              <>
                 <h1>
                   {org.name}
                 </h1>
@@ -118,7 +117,7 @@ const OrganizationInfo = ({ }) => {
                                 <CardMedia
                                   component="img"
                                   alt="Contemplative Reptile"
-                                  height="180"
+                                  height="170"
                                   image="https://cdnb.artstation.com/p/assets/images/images/001/973/811/large/leva-tuskliy-4.jpg?1455395165"
                                   title="Contemplative Reptile"
                                 />
@@ -137,11 +136,9 @@ const OrganizationInfo = ({ }) => {
                   }
                 </div>
 
-                <Button className="btn" variant="contained" onClick={backHandler} color="primary">
-                  Назад
-                </Button>
+                <Button className="btn" variant="contained" onClick={backHandler} color="primary">Назад</Button>
 
-              </div>
+              </>
               : null}
           </div>
           : 'Вы как сюда попали?'
