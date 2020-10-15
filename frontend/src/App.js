@@ -18,6 +18,9 @@ import DepartmentInfo from "./components/DepartmentInfo";
 import WorkerInfo from './components/WorkerInfo'
 import * as ACTION_MAIN from "./redux/actions/mainPageActions";
 
+import * as ACTIONS_LOAD from './redux/actions/loaders/loaders'
+
+
 function App() {
 
   const aboutMe = useSelector(state => state.aboutMe);
@@ -28,14 +31,19 @@ function App() {
 
   const dispatch = useDispatch()
 
+  //const isLoading = useSelector(state => state.loading)
+
   useEffect(() => {
 
 
     console.log('AAAAAAAAAA ZASHEL');
     (async () => {
+      dispatch(ACTIONS_LOAD.IS_LOADING())
       try {
         // КОСТЫЛЬ
         if (loggedIn !== false) {
+          // dispatch(ACTIONS_LOAD.ASYNC_THUNK_NEW_TASK(newTask))
+
 
           const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/organization/?userID=${user.userID}`)
           const result = await response.json()
@@ -74,6 +82,7 @@ function App() {
         // логику с setMessageBack как в ModalWorker COMPONENT
         console.log(err);
       }
+      dispatch(ACTIONS_LOAD.NOT_LOADING())
     })();
   }, [loggedIn, ])
 

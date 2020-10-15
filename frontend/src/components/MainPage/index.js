@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 import './style.scss'
+import Loader from '../Loader';
 
 const useStyles = makeStyles({
   root: {
@@ -26,6 +27,8 @@ const MainPage = () => {
   const isCreator = useSelector(state => state.aboutMe.isCreator)
   const orgArray = useSelector(state => state.organizations)
   const dep = useSelector(state => state.workerDeps)
+
+  const isLoading = useSelector(state => state.loading)
 
   return (
     <div className="main-page">
@@ -94,7 +97,9 @@ const MainPage = () => {
           }
         </>
       }
+      {isLoading && <Loader />}
     </div>
+
   )
 }
 
