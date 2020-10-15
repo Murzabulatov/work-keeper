@@ -12,7 +12,10 @@ const initialState = () => {
 
     department: {},
 
-    workerDeps: []
+    workerDeps: [],
+
+    loading: false
+
   }
 
   return JSON.parse(localStorage.getItem('redux')) || initialValue

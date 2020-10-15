@@ -5,6 +5,7 @@ import orgReducer from './orgReducer'
 import depReducer from './depReducer'
 import actualDepReducer from './actualDepReducer'
 import workerDepsReducer from './workerDepsReducer'
+import loadReducer from "./loadReducer/loadReducer";
 
 const rootReducer = (state, action) => {
   if (action.type === 'LOGOUT') {
@@ -21,7 +22,8 @@ const appReducer = combineReducers({
   organizations: orgReducer,
   departments: depReducer,
   department: actualDepReducer,
-  workerDeps: workerDepsReducer
+  workerDeps: workerDepsReducer,
+  loading: loadReducer,
 })
 
 export default rootReducer
