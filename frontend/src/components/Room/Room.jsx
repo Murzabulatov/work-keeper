@@ -129,8 +129,13 @@ const Room = () => {
       stream,
     });
 
+    let count = 0
+
     peer.on("signal", signal => {
-      socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
+      if (!count) {
+        count++
+        socketRef.current.emit("sending signal", { userToSignal, callerID, signal })
+      }
     })
 
     return peer;
